@@ -1,0 +1,288 @@
+\chapter{Introduction}\label{chap:intro}
+
+\section{Achievements of Machine Learning}
+
+The rapid progress in machine learning~(ML) and Artificial Intelligence~(AI) techniques
+has drastically transformed various aspects of human lives over recent years~\cite{bengio-nature15,taward18}.
+%
+These impressive ML and AI methods, due to their advancements in algorithms
+and enhanced computational capabilities,
+%and the accessibility of extensive datasets,  
+have found vast use across
+diverse tasks, such as those in natural language processing~(NLP) and computer vision~(CV) fields.
+%domains.
+
+%transportation~\cite{adlb-sust19,nmnk-sust20,hy-rits20}, 
+%law~\cite{raai-sp19,ksarv-mecon22}, finance~\cite{aifin20,gklp-jbef21,af-fintech19}, 
+%and healthcare~\cite{aimed-jbhi20,mpr-jfmpc19,rcbt-nm22,racc-jamia20,xaihealth-access22}
+
+
+In the language technology field, a notable advancement has been made through the development
+of large language models~(LLMs)~\cite{llm-tist23,gptedu-lid23,transformer-17}, BERT~\cite{dclt-bert19}, GPT-3~\cite{gpt-3-neurips20}, GPT-4~\cite{gpt-4-corr23}, and LLaMA-2~\cite{llama-2-corr23}.
+%
+These models have showcased remarkable performance across various natural language processing (NLP) tasks.
+%
+Furthermore, they signify a notable advancement in natural language generation~(NLG) 
+and natural language understanding~(NLU) capabilities, 
+highlighting their adaptability across diverse applications such as chatbots and content generation.
+%
+Leading technology companies have integrated LLMs into their commercial products 
+and services to augment functionality.
+%
+As an example, Microsoft integrates GPT into the new Bing to enhance search relevance ranking~\cite{bing-17}.
+%
+Meanwhile, advancements in the image generation realm, facilitated by of technologies 
+such as Stable Difussion~\cite{rbleo-cvpr22}, variational autoencoder~(VAE)~\cite{kw-corr13}, generative adversarial networks (GANs)~\cite{gan-corr14},
+vision transformers~\cite{vtransformer-21}, have significantly influenced the field,
+notably improving image generation capabilities across domains such as computer graphics and artistic design.
+%  [87, 302, 307, 378]
+%
+Moreover, significant milestones have been achieved in the filed of reinforcement learning, 
+illustrated by the outstanding performance of AI agents, such as AlphaGo~\cite{rl-nature15,rlchess-science18,rlgo-nature17}.
+%
+These agents outperformed world champions in complex games like chess and Go,
+demonstrating the potential of AI in strategic decision-making.
+
+The significance of ML advancements for society is also highlighted by 
+the substantial contributions, particularly in
+the general AI/ML field, made by leading technology companies,
+such as Amazon, Facebook, Google, Microsoft, Baidu, Amazon, Oracle,
+and many others.
+%
+Furthermore, the emergence of AI for Science~(AI4Science)~\cite{ai4sci-corr23,aiqtcs-corr23}, 
+making a bridge to connect AI technologies with scientific fields, 
+has proven to be an influential method for accelerating scientific research and discovery.
+%
+AI4Science leverages AI's computational power to analyze complex scientific data, formulate hypotheses, 
+and foster advancements in areas like materials science~\cite{bdciw-nature18}, 
+climate science~\cite{khu-natureg20,dbcl-gmd23}, and genomics~\cite{aige-aihl23,wsnp-nrg22}.
+
+While these accomplishments have raised awareness of the transformative potential of ML and AI, 
+they have also emphasized the critical importance of dependable and trustworthy
+AI~\cite{wing-cacm21,trustai-acmc23,kurd-csur22,sss-cacm22,ms-rw22,msi-fai23}.
+%
+Maintaining transparency, ethical standards, and responsible implementation are 
+crucial to guarantee the positive societal effects of these technologies,
+despite their limitless potential.
+
+\section{Rise of eXplainable AI}
+
+Complex ML models are rapidly integrated 
+into our daily lives due to the impressive progress in ML.
+%
+These complex models, driven by their exceptional accuracy, significantly impact decision-making 
+across various fields including healthcare~\cite{aimed-jbhi20,mpr-jfmpc19,rcbt-nm22,racc-jamia20,xaihealth-access22},
+ law~\cite{raai-sp19,ksarv-mecon22}, finance~\cite{aifin20,gklp-jbef21,af-fintech19}, and
+transportation~\cite{adlb-sust19,nmnk-sust20,hy-rits20}.
+%
+However, accuracy frequently sacrifices explainability, 
+leaving both domain experts and general users without clear insights into the outcomes generated 
+by these complex model although users need to make decisions based on them.
+%
+Complex ML models are commonly referred to as ``black boxes''~\cite{lg-access19,yyx-if22,ya-lim19,carab-ais20}
+owing to their opaque internal mechanisms and 
+the intricate structure that significantly complicates model interpretation,
+making it challenging for humans to understand.
+%
+With the growing adoption of complex ML models, there is a rising need for
+transparency and accountability~\cite{rai-jams20,vw-pt21,lh-ipr20,trai-nature20} 
+in their decision-making processes.
+%
+Users, stakeholders, and regulators require insight into the
+rationale behind the decisions or recommendations made by ML/AI systems.
+%
+Lacking such transparency and accountability can lead to several critical issues
+as follows.
+
+\begin{itemize}
+	\item Fairness and Bias: 
+		%
+		Due to the potential for ML/AI systems to generate biased or unfair 
+		decisions~\cite{propublica16,hhll-corr22}, explainability is essential for understanding the
+		mechanisms behind these biases and mitigating them in ML models. 
+		%
+		This guarantees that AI-based decisions do not worsen social disparities.
+	\item Regulatory Compliance:
+		%
+		In some sectors, including law and finance, regulations and standards mandate 
+		decision-making processes to be transparent and comprehensible.
+		%
+		The absence of transparency can result in compliance challenges because stakeholders 
+		may find it difficult to understand and justify the decisions made by AI 
+		systems~\cite{jiv-nmi19,sbbl-aes20,coeck-mitp20}.
+	\item Safety and Robustness:
+		%
+		In safety-critical domains like autonomous vehicles and healthcare, 
+		it is crucial to gain insight into how AI systems handle unexpected situations.
+		%
+		Lacking transparency presents considerable challenges in guaranteeing the safety and
+		robustness of AI systems, especially in contexts where the operation of AI models 
+		can potentially trigger unexpected consequences~\cite{dear-alr19}.
+\end{itemize}
+
+In light of the identified critical issues in ML, there is an imperative demand
+to build trust in ML/AI systems.
+%
+This need has led to rapid development in the research field of \emph{eXplainable AI}~(XAI),
+which is aimed at making a bridge between the internal mechanisms of ML/AI systems and human comprehension, 
+ultimately targeting establishing \emph{trustworthy AI}~\cite{ms-rw22}.
+
+
+%In response to the current state of affairs and driven by recent regulations and
+%recommendations~\cite{hlegai20,oecd21}, along with existing proposals for 
+%ML/AI system regulation~\cite{euaiact21,unesco21,vg-nmi21,radem-rai20},
+%there is an urgent need to build trust in the operation of ML/AI systems. This demand has spurred
+%rapid growth in the research domain of \emph{eXplainable AI}~(XAI). XAI can be defined as the
+%process of bridging the gap between the inner workings of ML/AI systems and human understanding, all
+%with the goal of establishing trustworthy AI~\cite{ms-rw22}.
+
+\textbf{The significance of XAI}.
+%
+The significance of both XAI and trustworthy AI is emphasized by 
+recent regulations and guidelines from influential entities~\cite{darpa-xai16,hlegai19,hlegai20,eucoord21,euaiact21,oecd21,unesco21,ms-rw22}.
+%
+The main reasons of the significance of XAI are identified 
+as follows.
+
+\begin{itemize}
+	\item Reducing Bias:
+		%
+		XAI can contribute to identifying and alleviating bias
+		in ML models.
+		%
+		With the assistance of XAI in gaining insight of the features and data points
+		affecting decisions, professionals can tackle biases and achieve fairness in AI applications.
+
+	\item Building Trust:
+		%
+		Trust is a vital factor to consider in the adoption of AI.
+		%
+		XAI enables stakeholders to obtain a better understanding of the decision-making process, 
+		therefore enhancing trust in the technology.
+		%
+		This is especially vital in situations where AI automates or assists decision-making processes, 
+		such as in finance, where investors depend on AI-assisted investment advice, 
+		and in healthcare, where doctors require trust in AI-supported diagnoses.
+	\item Boosting productivity:
+		%
+		Methods facilitating explainability can quickly uncover errors and/or areas
+		requiring improvement, simplifying tasks for ML operations~(MLOps) teams who are responsible for 
+		efficiently monitoring and maintaining AI systems.
+		%
+		For instance, the insight of particular features that drive the model's output 
+		enables technical teams to verify whether the patterns identified by the model 
+		have wide applicability and relevance for future predictions,
+		or if they merely represent a particular data point.
+	\item Enhancing Safety:
+		%
+		In safety-critical fields, XAI facilitates users
+		understanding the rationale behind the decision made by
+		AI systems.
+		%
+		For instance, in the context of autonomous vehicles,
+		the understanding of driving system's actions can
+		prevent accidents.
+	\item Aiding Compliance:
+		%
+		There is a rising call for transparency in ML algorithms,
+		with governments and regulatory organizations increasingly paying 
+		attention to AI ethics.
+		%
+		Aligning with these principles, XAI can assist organizations
+		in complying with established regulations and ethical standards.
+\end{itemize}
+
+\textbf{XAI Approaches.}
+In recent years, various approaches to XAI have emerged, aiming to improve the 
+transparency and trustworthiness of ML systems. 
+%
+In general, XAI techniques can be categorized based on different criteria,
+namely intrinsic, post-hoc, model-agnostic, and model-specific methods.
+
+\begin{itemize}
+	\item \emph{Intrinsic} approaches concentrate on structuring ML models in a manner that 
+		ensures they are inherently interpretable from the beginning.
+		%
+		In general, models with straightforward architectures are referred to as
+		\emph{interpretable} ML models, frequently deemed intrinsically interpretable~\cite{rudin-natmi19}.
+		%
+		Arguably, the most explainable types of ML models include decision trees,
+		decision lists, and decision sets, as they consist of straightforward logical rules.
+		%
+		Among these, decision sets offer the most straightforward explanations,
+		where if a rule in a decision set ``fires'' for a specific data instance, 
+		that rule alone serves as the explanation.
+		%
+		Regarding decision lists, which consist of an ordered sets of rules,
+		we are required to additionally consider the order of rules in the model.
+
+	\item \emph{Post-hoc} methods explain trained ML models by applying interpretation
+		techniques.
+		%
+		These techniques are applicable to complex and inherently non-interpretable models, 
+		including neural networks and transformers.
+		%
+		The two primary branches of research in post-hoc explanations include
+		\emph{feature selection} techniques, exemplified by Anchors~\cite{guestrin-aaai18}, 
+		and \emph{feature attribution} methods, such as LIME~\cite{guestrin-kdd16} and SHAP~\cite{lundberg-nips17}.
+
+	\item \emph{Model-agnostic} techniques~\cite{guestrin-kdd16,lundberg-nips17,guestrin-aaai18} are 
+		applicable to any ML model, including complex models.
+		%
+		These techniques are often implemented after the model has finished its
+		training phase, rendering them post hoc in nature.
+		%
+		Model-agnostic approaches often generate explanations by examining 
+		the relationships between inputs and outputs, without depending on access to 
+		the internal information of the model, such as weights and structural details.
+		%
+		Undoubtedly, model-agnostic methods are viewed as the prevailing approach 
+		in the domain of XAI.
+	
+	\item \emph{Model-specific} methods are customized for specific categories of models
+		and are not universally applicable.
+		%
+		In contrast to model-agnostic approaches, model-specific methods can offer more
+		detailed insights into particular types of models, although their applicability is 
+		restricted to those particular models.
+		%
+		There is an increasing tendency to apply formal approaches for ML systems
+		verification~\cite{sss-cacm22}, with logic-based explainability playing a crucial role in 
+		this trend~\cite{ignatiev-ijcai20,msi-aaai22,darwiche-lics23,ms-rw22,msi-fai23}.
+\end{itemize}
+
+To gain a deeper insight into these XAI approaches, interested readers can refer to
+reference~\cite{asjaa-dmkd21,molnar-bk20,rai-jams20,darwiche-lics23,xudfzz-nlpcc19,hsmbs-xxai22,ignatiev-ijcai20,ms-rw22,msi-fai23}.
+%
+The majority of XAI methods explored in this thesis can be classified as intrinsic
+and post-hoc approaches.
+
+\input{motiv}
+
+\input{rq}
+
+\section{Thesis Organization} \label{sec:structure}
+The thesis is organized as follows:
+\begin{itemize}
+	\item \autoref{chap:bg} reviews the background related to XAI.
+	\item \autoref{chap:jair21} introduces the method to generate optimal decision sets and list.
+	\item \autoref{chap:cp23} shows the work to compile a gradient boosted tree into a
+		decision set.
+	\item \autoref{chap:aaai23} presents the technique to apply background to formal
+		explainability.
+	\item \autoref{chap:ffa}  illustrates the approach to computing formal feature attribution.
+	\item \autoref{chap:marco}  shows the anytime method to approximate formal feature
+		attribution.
+	\item \autoref{chap:jit} introduces work to apply formal explainability in jsut-in-time
+		prediction.
+	\item \autoref{chap:conc} presents the conclusions and feature work.
+\end{itemize}
+
+%This dissertation is organised as follows:
+%• Chapter 2 reviews the literature that related to pathfinding problem.
+%• Chapter 3 presents our techniques [45, 46] to efficiently find optimal and suboptimal obstacle-avoiding path in a Euclidean plane.
+%• Chapter 4 covers our efficient oracle-based approach [47] for retrieving the shortest path in a static road network.
+%• Chapter 5 describes our enhancement techniques [49] on the state-of-the-art algorithms, TCH, for finding the shortest path in a time-dependent road network.
+%• Chapter 6 shows our novel cluster reasoning techniques [50] to enhances the performance of the CBS algorithm for solving the classic MAPF problem.
+%• Chapter 7 describes our proposed platform [51] for continuously monitoring the progress of MAPF algorithms.
+%• Chapter 8 concludes our research and discusses future works.

@@ -1,0 +1,139 @@
+\section{Research Questions and Contributions}
+
+\subsection{Research Questions}
+Motivated by the rapid development in the XAI domain
+and the identified limitations of prevalent model-agnostic methods,
+this thesis focuses on XAI problems, in particular formal explainability, 
+aiming to develop techniques to improve explainability of ML models 
+and address the gap in formal explainabaility.
+%
+The thesis is categorized into three research questions (RQs):
+\begin{itemize}
+	\item RQ1: How can we learn ML models that are both accurate and interpretable?
+	\item RQ2: How can we compute succinct and accurate explanations?
+	\item RQ3: How can we apply formal explanations in real-world scenarios? 
+\end{itemize}
+
+\subsection{Contributions}
+
+\subsection{Contributions for RQ1.}
+
+To address RQ1, two research works are introduced:
+
+\begin{itemize}
+	\item Jinqiang Yu, Alexey Ignatiev, Peter J. Stuckey, and Pierre Le Bodic. Learning optimal decision
+sets and lists with sat. \emph{Journal of Artificial Intelligence Research,} 72, 1251-1279, 2021.
+
+	\item Jinqiang Yu, Alexey Ignatiev, and Peter J. Stuckey. From formal boosted tree explanations to
+interpretable rule sets. \emph{In 29th International Conference on Principles and Practice of
+	Constraint Programming,} vol. 280, pp.38:1-38:21, 2023.
+\end{itemize}
+
+First, we present a method for constructing decision sets and decision lists optimal in
+either the number of required literals or the trade-off between model size and accuracy.
+%
+In this study, we introduce a novel metric for assessing the explainability of 
+interpretable ML models, specifically focusing on the number of literals used.
+%
+Previous research has primarily relied on a metric based on the number of rules, 
+which may not accurately capture explainability.
+%
+For instance, two rules with 70 conditions each are considerably
+less interpretable than six rules with only three conditions each.
+%
+With the new explainability measure, we can generate more interpretable decision sets and lists.
+
+Furthermore, we introduce a novel anytime approach to
+generating decision sets that focus on both
+accuracy and interpretability.
+%
+Motivated by the issue in existing approaches to decision sets,
+which cannot offer any decision information 
+if a dataset is not completely solved,
+we propose a method that establishes a connection
+between formal post-hoc explainability and interpretable decision set models.
+%
+This involves distilling a gradient boosted tree model 
+into a decision set as needed,
+making use of formal explanations in the process.
+%
+This technique is a knowledge distillation method and in theory, it can be extended
+to other ML models.
+
+
+\subsection{Contributions for RQ2.}
+
+To tackle RQ2, three research works are proposed: 
+
+\begin{itemize}
+
+	\item Jinqiang Yu, Alexey Ignatiev, Peter J. Stuckey, Nina Narodytska, and Joao Marques-Silva.
+Eliminating the impossible, whatever remains must be true: On extracting and applying background
+knowledge in the context of formal explanations. \emph{In Proceedings of the AAAI Conference on Artificial
+Intelligence,} vol. 37, pp. 4123-4131, 2023.
+
+	\item Jinqiang Yu, Alexey Ignatiev, and Peter J. Stuckey. On Formal Feature Attribution and Its
+Approximation. \emph{arXiv preprint arXiv:2307.03380,} 2023.
+
+	\item Jinqiang Yu, Graham Farr, Alexey Ignatiev, and Peter J. Stuckey. Anytime Approximate Formal
+Feature Attribution. \emph{arXiv preprint arXiv:2312.06973,} 2023.
+\end{itemize}
+
+
+We introduce a method for leveraging background knowledge,
+i.e. correlations between features, to generate more concise "why" formal explanations
+which are presumably more understandable to humans,
+and to provide more precise "why not" explanations.
+%
+These approaches tackle the problem of lengthy formal explanations, 
+which are caused by the general formal methods that consider the entire 
+feature space under the assumption of feature independence and
+uniform distribution~\cite{kutyniok-jair21}.
+%
+This issue can make the explanations difficult for users to interpret, 
+and also limit the practical applicability of the formal explainability
+techniques.
+
+In addition to the drawback of formal explanations being lengthy,
+the formal approach also fails to provide feature attribution.
+%the formal approach also fails to address the issue of feature attribution.
+%
+To overcome this limitation, we propose a new formal method for feature attribution.
+%
+By exhaustively enumerating all formal explanations, we establish a clear definition
+of formal feature attribution~(FFA) as the proportion of explanations
+where a particular feature appears.
+%
+However, we argue that formal feature attribution presents challenges for
+the second level of the polynomial hierarchy.
+%
+Therefore, we further extend our work by developing an anytime approach 
+that enables the efficient computation of approximate FFA 
+and thus extending its practical applicability.
+
+\subsection{Contributions for RQ3.}
+
+To solve RQ3,  one research work is presented:
+\begin{itemize}
+	\item Jinqiang Yu, Michael Fu, Alexey Ignatiev, Chakkrit Tantithamthavorn, and Peter J. Stuckey. A
+Formal Explainer for Just-In-Time Defect Predictions. \emph{ACM Transactions on Software Engineering
+	and Methodology,} 2024. (\textbf{Accepted.}) 
+\end{itemize}
+
+
+We propose an method to apply formal explainability in a just-in-time (JIT) defect prediction.
+%
+JIT defect prediction aims to predict whether a commit will potentially introduce
+software defects, helping teams in directing their limited resources towards the
+most high-risk commits or pull requests.
+%
+This proposed approach offers explanations that are not only provably correct,
+but also guaranteed to be minimal.
+%
+This tackles the shortcomings observed in previous research, where model-agnostic techniques are
+used to explain JIT model predictions, resulting in explanations
+that are not formally sound, robust, and actionable.
+%
+Our proposed approach is capable of efficiently producing explanations that 
+are proven to be correct, robust, and actionable, while existing model-agnostic techniques
+lack this capability.

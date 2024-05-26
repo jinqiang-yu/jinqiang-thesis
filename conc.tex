@@ -1,0 +1,185 @@
+\chapter{Conclusions and Future Work}\label{chap:conc}
+
+\section*{Conclusions}
+
+% growing XAI and its application in various domains
+% model-agnostic and FXAI
+%
+
+While machine learning~(ML) and Artificial Intelligence~(AI) advancements have been 
+widely applied across diverse domains like finance, 
+the lack of transparency in these systems triggers significant concerns, 
+e.g. fairness, bias, safety and robustness.
+%
+As a result, there is a growing interest of eXplainable AI~(XAI) aimed to establish trust in ML/ AI 
+systems, by explaining or illustrating the behavior of ML models in 
+human-understandable ways.
+%
+Among various approaches to XAI, model-agnostic approaches are
+stand out as the prevailing ones although they encounter challenges regarding 
+the quality of generated explanations. 
+%
+As an alternative, formal XAI~(FXAI) methods offer logic-based or formal explanations, 
+aimed to provide provable and robust explanations for ML predictions.
+%
+This thesis concentrates on XAI challenges, especially formal explainability,
+targeting enhancing the interpretability of ML models
+and addressing gaps in formal explainability.
+%
+The primary contributions of this thesis are outlined as follows:
+
+% contributions again
+\begin{itemize}
+	\item \autoref{chap:jair21} introduces methods to generate decision sets and decision lists 
+		that are optimal either in terms of the number of required literals or 
+		the trade-off between model size and accuracy.
+		%
+		In this study, we define size as the total number literals used in these rule-based ML models,
+		in contrast with previous research that primarily focuses on the number of rules in
+		the model, which cannot adequately capture the explainability of such models.
+		%
+		The empirical results illustrate that the decision sets and lists computed by the
+		proposed approaches are able to achieve decent trade-off between interpretability (represented by model size) and accuracy.
+
+	\item In \autoref{chap:cp23}, we present an innovative anytime approach to producing decision sets
+		through the on-demand extraction of generalized abductive explanations for boosted
+		trees.
+		%
+		The proposed method can be used to compile a gradient boosted tree
+		with respect to either the complete feature space, or a set of
+		target training instances.
+		%
+		Augmented by post-hoc model size reduction approaches, 
+		this method is demonstrated to generate decision sets that outperform those
+		computed by state-of-the-art algorithms in terms of accuracy accuracy and remain 
+		comparable with them regarding explanation size.
+		%
+		Note that the presented method can be categorized as a knowledge distillation technique and theoretically, 
+		it can extend to any other ML models.
+
+	\item In \autoref{chap:aaai23}, we propose a technique to apply background knowledge to enhance 
+		the quality of explanations. 
+		%
+		There are substantial advantages of incorporating background knowledge in generating
+		formal explanations for ML models.
+		%
+		In the context of abductive explanations~(AXp's), 
+		integrating background knowledge significantly reduces the length of explanations, 
+		making them more explainable, and improve the efficiency of explanation generation.
+		%
+		In the case of contrastive explanations (CXps), although applying background knowledge may 
+		increase the explanation size and potentially require more time for explanation generation, 
+		the resulting explanations are significantly more precise because they do not 
+		depend on the (often unsupportable) assumption that all tuples in the feature space 
+		are feasible.
+		%
+		Moreover, as demonstrated in \autoref{chap:aaai23}, background knowledge can be 
+		integrated into the context of heuristic explanations, particularly when an accurate
+		analysis of is need.
+
+	\item \autoref{chap:ffa}  introduces the first method for formal feature attribution~(FFA),
+		using the proportion of abductive explanations where a feature appears to
+		indicate its significance.
+		%
+		Experimental results demonstrate that we can compute exact FFA for numerous classification tasks, 
+		and in cases where exact computation is infeasible, we can compute effective approximations.
+		%
+		Additionally, we found existing model-agnostic method to generate to feature attribution 
+		disagree with FFA.
+		%
+		In some cases, they are considerably different from FFA, such as assigning no weight to 
+		a feature that is present in (a significant number of) explanations,
+		or assigning a (large) non-zero weight to a feature that holds no relevance for the prediction.
+		%
+		Overall, \autoref{chap:ffa} argues that if we acknowledge FFA as a valid measure 
+		of feature attribution, it is important to explore approaches that generate good 
+		approximate FFA more efficiently.
+
+	\item In \autoref{chap:marco}, motivated by the difficulty of exact computation for 
+		many classifiers and datasets, we introduce an anytime method for FFA
+		approximation.
+		%
+		As illustrated in this chapter, computing FFA remains challenging even 
+		when the set of CXp's is available. 
+		%
+		Therefore, there is a demand for anytime method to generate FFA.
+		%
+		Surprisingly, starting with CXp enumeration to produce AXps results in 
+		rapidly achieving good approximations of FFA.
+		%
+		However, in the longer turn this method proves to be less effective 
+		compared to simply enumerating AXps.
+		%
+		This work demonstrates the integration of these approaches by strategically 
+		switching the enumeration phase, ensuring that information computed in the 
+		underlying MARCO enumeration algorithm is preserved.
+		%
+		This presents a highly practical method to generate FFA.
+
+	\item \autoref{chap:jit} introduces the first formal explainer for just-in-time~(JIT) 
+		defect prediction. 
+		%
+		This novel explainer leverages formal reasoning by exploiting propositional logic
+		to efficiently produce explanations that are provably correct, robust, 
+		and subset-minimal, addressing ``why'' questions, such as why a commit is 
+		predicted as defective.
+		%
+		The proposed formal explainer is also capable of producing contrastive ``how'' 
+		explanations that are provably correct, robust, and subset-minimal, 
+		offering more actionable insights compared to abductive explanations.
+		%
+		This marks a significant step towards actionable software analytics.
+		%
+		Therefore, these generated explanations are able to assist researchers 
+		in designing actionable defect prediction methods and help practitioner direct their
+		attention towards the most crucial aspects related to software defects. 
+		%
+		This, in turn, enhances the operational decision-making of software quality assurance~(SQA) teams.
+\end{itemize}
+
+\section*{Feature work}
+While this thesis presents numerous advancements in the field of XAI, 
+there are still several directions that need to be addressed in future research.
+%
+Some future directions are outlined as follows.
+
+\textbf{Applying Formal Explainability}.
+%
+Although ML and AI are widely used in diverse fields, such as healthcare, law, finance, and transportation, 
+the opacity of ML/ AI systems can hinder users from gaining clear insights into 
+the outputs produced by these systems.
+%
+Consequently, these systems fail to establish trust between humans and the
+predictions generated by ML models.
+%
+Inspired by the limitation, in \autoref{chap:jit} we applies formal explainability for
+just-in-time~(JIT) defect prediction, aiming to establish trust for the predictions.
+%
+To broaden the applicability of ML and AI applications, one future research direction 
+will focus on applying formal explainability across various fields.
+%
+This will help users trust the predictions generated by ML models, facilitating the wider 
+adoption of ML and AI in diverse domains.
+
+\textbf{Improving Scalability of Formal Explainability}.
+%
+With the increasing need to deploy large and complex ML/ AI systems across diverse domains, 
+the scalability of XAI approaches has emerged as a notable concern.
+%
+Unfortunately, formal explainability encounters scalability challenges, 
+particularly with certain complex classifier families, such as neural networks.
+%
+These models are computationally expensive or hard to reason formally
+to produce formal explanations due to their complex structure.
+%
+To address this scalability limitation, recent research~\cite{bk-tacas23} 
+suggests a novel method to approximate formal explanations, with the use of 
+technologies aimed at evaluating the robustness of neural networks.
+%
+Additionally, recent research~\cite{bk-tacas23} introduces innovative algorithms for computing
+formal explanations, achieved by finding a direct relationship between 
+the practical complexity of robustness and formal explainability.
+%
+Inspired by the scalability issue and these studies, one feature research direction
+will focus on developing methods to efficiently
+generate formal explanations for complex ML models.

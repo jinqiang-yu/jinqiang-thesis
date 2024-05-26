@@ -1,0 +1,210 @@
+\section{Classification and Machine Learning Models} \label{sec:ml}
+
+\subsection{Classification Problems}
+A classification problem considers a set of features $\feats=\{1, \ldots, m\}$
+and a set of classes $\clss = \{1, 2, \ldots, k\}$. 
+%$\footnote{Any set of classes $\{c_1,\ldots,c_k\}$ can
+%always be mapped into the set of the corresponding indices
+%$\{1,\ldots,k\}$.}
+%%
+Each domain $\domain_i$ for feature $i \in \feats$ can be 
+categorical or ordinal, i.e.\ integer, and the value of each 
+feature $i$ is taken from its corresponding domain~$\domain_i$.
+%
+Therefore, the entire feature space is defined as
+$\cfeats\triangleq\prod_{i=1}^{m}\domain_i$.
+%
+For boolean domains, $\domain_i = \{0, 1\}$, 
+$i \in \feats$, and $\feats = \{0, 1\}^m$.
+%
+The notation $\mbf{v}=(v_1,\ldots,v_m)\in\cfeats$ represents
+a specific point in feature space, where each $v_i \in
+\domain_i$ is a constant taken for feature $i\in\feats$.
+%
+An \emph{example} or \emph{instance} is denoted by a concrete point
+$\mbf{v} \in\cfeats$ in feature space and its corresponding class $c
+\in \clss$, i.e. an instance is represented by a pair $(\mbf{v}, c)$.
+%
+Given a subset~$\fml{S} \in \feats$, $\mbf{v}_S$ is denoted as the 
+partial point of $\mbf{v}$, indicating the restriction of the entire 
+point $\mbf{v}$ to those features in $\fml{S}$. 
+%
+An arbitrary point in feature space is denoted by 
+the notation $\mbf{x} = (x_1,\ldots,x_m)$, where each $x_i \in \mbf{x}$ 
+is a variable which takes values from its corresponding domain~$\domain_i$ 
+and represents feature $i\in\feats$.
+%
+Moreover, the set of classes~$\clss$ is assumed to contain 
+finite classes; no extra restrictions are placed upon $\clss$.
+%
+Finally, a non-constant classification function $\cfunc:
+\cfeats \limply \clss$ is defined by a machine learning classifier~$\model$,
+which is represented as a tuple ($\cfeats$, $\feats$, $\clss$, $\cfunc$).
+
+\subsection{Decision Sets \& Lists}
+Decision sets~\cite{leskovec-kdd16,michalski-isip69,ipnms-ijcar18,yilbs-cp20} 
+and decision lists~\cite{rudin-mpc18,rivest-ml87} are considered interpretable
+machine learning models, representing families of rule-based classifiers.
+%
+These models offer users concise explanations directly from the models themselves.
+
+A \emph{decision rule} is structured as ``IF antecedent THEN
+prediction'', with the antecedent being a set of feature literals.
+%
+A rule is considered to assign an instance $\mbf{v}\in\feats$
+to class $c\in\clss$ if its antecedent is \emph{compatible} with
+$\mbf{v}$ or \emph{matches} $\mbf{v}$ and its prediction is $c$.
+
+A \emph{decision set}~(DS) consists of an unordered set 
+of decision rules~$\fml{R}$.
+%
+An instance $(\mbf{v},c)\in\fml{E}$ is misclassified by a DS if either
+there are no rules in $\fml{R}$ compatible with $\mbf{v}$, or if there 
+is at least one rule that classifies $\mbf{v}$ as a class $c'\in\feats$
+where $c'\neq c$.
+
+A \emph{decision list}~(DL) is an ordered set of rules. 
+%
+The first rule of a decision list matches an instance is the one classifying the instance.
+%
+Decision lists are typically represented as as a single cascade of 
+IF-THEN-ELSEs, with the final rule serving as a default rule, 
+which assigns all remaining instances to certain class.
+
+Compared with DLs, there are a number of issues in DSs
+complicating their analysis.
+%
+Overlapping is one of the issues, where two or more rules predicting
+different classes fires the same inputs~\cite{ms-rw22,msi-fai23}. 
+%
+Coverage of feature space is another issue, where instances are not
+fired by any rule in DSs.
+%
+To address this coverage problem, a default rule can be added, which 
+assigns a certain class to instances fired by none of the other rules.
+%
+However, this condition further complicates the
+reasoning process for DSs.
+
+\subsection{Decision Trees and Gradient Boosted Trees}
+Decision trees~\cite{rivest-ipl76,breiman-bk84,quinlan-bk93,quinlan-ml86}
+are another interpretable machine learning model, often considered to be
+more advantageous than most ML models as their decisions are generally
+straightforward to humans.
+
+A \emph{decision tree}~(DT) $\tree = (\tnodes, \edges)$ consists of a set of 
+nodes~$\tnodes$ and a set of edges~$\edges$,
+forming a directed acyclic graph where there is at most one
+edge between any pair of nodes.
+%
+The root node of a decision tree~$\tree$ has no incoming edges,
+while all other nodes have a single incoming edge. 
+%
+In this thesis, univariate decision trees are considered, 
+where every non-terminal node is linked to exactly 
+one feature $i \in \feats$, and each terminal node 
+corresponds to a value from a set of classes~$\clss$.
+%
+Furthermore, each non-terminal node signifies a feature
+condition in the form of $x_i < d$, where feature $i \in \fml{F}$
+and \emph{splitting threshold}~$d \in \domain_i$.
+%
+Each path in the DT~$\tree$ is represented as a sequence of nodes, 
+e.g. $\tpath = \langle \tnode_1, \dots, \tnode_n \rangle$, 
+where $\tnode_1$ is the root node and $\tnode_n$ is the terminal node.
+%
+Every pair $(\tnode_j, \tnode_{j+1})$ signifies an edge in the tree~$\tree$. 
+%
+In each path~$\tpath \in \tree$ from the root node to a terminal node, 
+a feature may be tested multiple times, i.e., it is not read-once. 
+%
+An instance is assigned the class linked to the 
+terminal node in the path that matches this instance.
+
+
+While decision trees are easily understood by humans, 
+they are prone to bias when they are small and tend to overfit 
+when large.
+%
+To address these shortcomings, tree ensembles were introduced,
+which involve generating multiple decision trees and aggregating
+their decisions to reach a final decision.
+%
+Gradient boosted trees is one of the popular ensemble methods used
+to overcome the decision tree's limitations.
+
+A \emph{gradient boosted tree}~(BT) is a tree ensemble~$\trees$
+constructed by iteratively building a sequence of small 
+decision trees.
+%
+At each stage, new trees are added to the ensemble to address
+the inaccuracies present in the existing tree ensemble.
+%
+Concretely, a BT~$\trees$ defines sets of decision trees~$T_{c} \in \trees$ 
+for each class $c \in [|\clss|]$, where $T_{c}$ consists of 
+$N \in \mathbb{N}_{>0}$ trees~$\tree_{kz+c}$,
+$z \in \{0, \dots, N-1\}$, $k = |\fml{K}|$.
+%
+Thus, each decision tree is associated with a certain class~$c$ 
+and contributes to the weight class~$c$.
+%
+Given an instance $\mbf{v}\in\cfeats$, its
+class is determined by calculating the sum of scores assigned
+by trees for each class $w(\mbf{v},c) = \sum_{t \in T_{c}} t(\mbf{v})$ and
+assigning the class with the highest score, i.e. $\textrm{argmax}_{c \in
+[|\fml{K}]|} w(\mbf{v},c)$.
+
+
+\subsection{Neural Networks}
+While these interpretable machine learning models including decision sets, 
+decision lists, and decision tree are straightforward to explain their predictions, 
+they often lack the accuracy achieved by other state-of-the-art models. 
+%
+Neural networks~\cite{schm-nn15}, which are the fundamental structures of 
+advanced machine learning models, such as convolutional neural 
+networks~(CNN)~\cite{kun-bc80,lbbh-ieee98}, recurrent neural
+networks~(RNN)~\cite{elman-cs90} and transformers~\cite{transformer-17}, 
+can be adopted to address the accuracy performance issues 
+associated with these interpretable models
+
+A \emph{neural network}~(NN) is a network~$N$ composed of
+artificial neurons where an instance $\mbf{v}\in\cfeats$ is
+passed through a sequence of layers~$\fml{L} = \{l_1, l_2, \dots, l_n\}$
+and each layer~$l\in\fml{L}$ consists of a set of neurons.
+%
+Here, the first layer $l_1 \in \fml{L}$ is the input layer, 
+layers~$\{l_2, \dots, l_{n-1}\}$ are the hidden layers, and the final
+layer~$l_n$ acts as the output layer.
+%
+Functionally, a neural network defines a mapping~$N: \cfeats \limply \clss$.
+%
+In classification tasks, the output yields scores (or probabilities)
+across $|\clss|$ classes, with the class receiving the highest
+score being the prediction of the input instance~$\mbf{v}$.
+%
+Each neuron~$o$ in a neural network $N$ forms interconnected 
+nodes arranged in layers. 
+%
+These neurons collaborate to process and convey information. 
+%
+Each neuron~$o$ accepts inputs, processes them, and generates an output, 
+which is subsequently conveyed to other neurons in the following layer of 
+the network.
+%
+In each layer~$l_i \in \fml{L}$, multiple inputs are received from either the 
+instance~$\mbf{v}$ (for the input layer~$l_1$, i.e. $i=1$) or
+the outputs of the neurons in the previous layer~$l_{i-1}$,
+$i \in \{2, \dots. n\}$.
+%
+Each neuron~$o$ in layer~$l_i$ applies weights to them, aggregates them, 
+and afterwards passes the result through an activation function 
+to generate an output.
+%
+Finally, the output layer~$l_n$ in a neural network~$N$ provides scores across 
+$|\clss|$ classes for an instance~$\mbf{v}$ and assign the class~$c$
+with the highest score.
+
+However, although neural networks can deliver exceptional performance, they often lack 
+of explainability, leading to challenges in understanding their predictions.
+%
+This highlights the necessity for explainable AI.

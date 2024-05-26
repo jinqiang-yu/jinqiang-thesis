@@ -1,0 +1,123 @@
+\section{SAT \& MaxSAT} \label{sec:sat}
+Numerous recent studies focusing on computing interpretable ML models~\cite{aaai2021e,ipnms-ijcar18} 
+and producing formal explanations~\cite{iisms-aaai22,ims-sat21} have leveraged 
+Boolean satisfiability~(SAT) and maximum satisfiability~(MaxSAT) technology. 
+%
+This section introduces the necessary concepts related to SAT and MaxSAT.
+%
+Here, we adopt standard definitions for SAT and MaxSAT solving~\cite{sat-handbook}.
+
+\subsection{Boolean Satisfiability~(SAT)}
+
+In a Boolean satisfiability~(SAT) problem~\cite{sat-handbook}, the input 
+comprises a propositional formula over a set of propositional variables
+with the use of different logical operators on these variables.
+%
+A propositional formula is considered to be in \emph{conjunctive normal form}~(CNF) 
+if it consists of a conjunction~(logical ``and'') of clauses,
+where each \emph{clause} is a disjunction~(logical ``or'') of literals. 
+%
+A \emph{literal} is either a propositional variable~$b$ or its negation~$\neg b$.
+%
+Whenever convenient, a clause is regarded as a \emph{set of literals}, 
+and a CNF formula are considered as a \emph{set of clauses}.
+%
+A \emph{truth assignment} assigns a value from $\{0,1\}$ to each variable 
+in a CNF formula.
+%
+For a truth assignment, a clause is deemed satisfied if there exists at least 
+one of its literals assigned value 1; otherwise, it is falsified by 
+the assignment.
+%
+A formula is considered satisfied if all of its clauses 
+are satisfied; conversely, it is falsified if any of its 
+clauses are falsified.
+%
+If there is no assignment satisfying a CNF formula, 
+the formula is deemed unsatisfiable.
+%
+Solving a SAT problem is to determine whether there exists a truth assignment 
+satisfying the entire formula, i.e. all clauses in the formula are satisfied.
+
+\subsection{Maximum Satisfiability~(MaxSAT)}
+
+In the case of unsatisfiable formulas,  the maximum satisfiability (MaxSAT) problem is introduced,
+which aims to identify a truth assignment that maximizes the number of satisfied clauses.
+%
+Although numerous variants of MaxSAT are available~\cite[Chapters~23~and~24]{sat-handbook}, 
+the thesis is focused on Partial Unweighted MaxSAT, which can be formulated as follows.
+%
+A formula $\cnf$ is composed of a conjunction of \emph{hard} clauses $\hardcl$ and 
+\emph{soft} clauses $\softcl$, i.e. $\cnf=\hardcl\land\softcl$ (or $\cnf=\hardcl\cup\softcl$ in the set
+theory notation), where hard clauses $\hardcl$ must be satisfied 
+while soft clauses  $\softcl$ indicate a preference for satisfying these clauses. 
+%
+The aim of the Partial Unweighted MaxSAT problem is to identify a 
+truth assignment satisfying all the hard clauses and maximizing the total number of 
+satisfied soft clauses.
+%
+In the examination of an unsatisfiable formula $\cnf$, there is often an interest in 
+finding \emph{minimal unsatisfiable subsets} (MUSes) and \emph{minimal correction subsets} (MCSes) of $\cnf$. 
+%
+These subsets can be defined as follows.
+
+In the analysis of an unsatisfiable formula $\cnf$, one is also often
+interested in identifying \emph{minimal unsatisfiable subsets} (MUSes) and
+\emph{minimal correction subsets} (MCSes) of $\cnf$, which can be defined as
+follows.
+%\footnote{The problems we are tackling with these formalisms in
+%this paper belong to decidable fragments of first-order logic. While
+%the definitions provided here are given for the propositional case,
+%their extension to the first-order case is straightforward.}.
+
+\begin{definition}[Minimal Unsatisfiable Subset~(MUS)] \label{def:mus}
+  Consider a formula consisting of an unsatisfiable set of clauses~$\cnf=\hardcl\cup\softcl$,
+  where $\cnf\entails\bot$.
+  %
+  A subset of clauses $\mu\subseteq\softcl$ is seen as a \emph{Minimal Unsatisfiable Subset}~(MUS) 
+  iff $\hardcl\cup\mu\entails\bot$ and $\hardcl\cup\mu'\nentails\bot$ holds for $\forall{\mu'\subsetneq\mu}$.
+\end{definition}
+%
+Informally, an MUS can be considered as a minimal explanation of the unsatisfiability of a formula~$\cnf$
+since it presents the minimal~(irreducible) information required to be augmented to the 
+hard clauses~$\hardcl$ in order to achieve unsatisfiability.
+%
+Alternatively, there may be interest in \emph{correcting} the formula by 
+removing some clauses from $\softcl$ to obtain satisfiability.
+%
+\begin{definition}[Minimal Correction Subset (MCS)] \label{def:mcs}
+  Consider a formula comprising an unsatisfiable set of clauses~$\cnf=\hardcl\cup\softcl$, 
+  i.e. $\cnf\entails\bot$.
+  %
+  A subset of clauses $\sigma\subseteq\softcl$ is considered as a 
+  \emph{Minimal Correction Subset}~(MCS) iff
+  $\hardcl\cup\softcl\setminus\sigma\nentails\bot$ and 
+  $\hardcl\cup\softcl\setminus\sigma'\entails\bot$ holds for
+  $\forall{\sigma'\subsetneq\sigma}$.
+\end{definition}
+%
+Informally, an MCS can be viewed as the minimal approach to ``correcting'' 
+the unsatisfiability of an unsatisfiable formula $\cnf$.
+%
+One of the key findings in analyzing unsatisfiable CNF formulas is
+the minimal hitting set (MHS) duality relationship between MUSes 
+and MCSes~\cite{reiter-aij87,lozinskii-jetai03}.
+%
+Concretely, given the sets of all MUSes and MCSes of formula~$\cnf$
+denoted as $\mbb{U}_\cnf$ and $\mbb{C}_\cnf$ respectively,  
+we have $\mbb{U}_\cnf = \mhs(\mbb{C}_\cnf)$ and $\mbb{C}_\cnf = \mhs(\mbb{U}_\cnf)$,
+where $\mhs(S)$ represents the minimal hitting sets of $S$, i.e.
+$\mhs(S)$ is the minimal sets sharing at least one element with each subset in $S$.
+%
+Formally, $\mins(S) = \{ s \in S ~|~ \forall t
+\subsetneq s,~t \not\in S\}$ identifies the subset-minimal elements of a
+set of sets, $\hs(S) = \{ t \subseteq (\cup S) ~|~ \forall s \in S,~
+t \cap s \neq \emptyset\}$, and $\mhs(S) = \mins(\hs(S))$.
+%
+This finding of the MHS duality relationship has been widely used 
+in developing algorithms for MUSes and MCSes~\cite{stuckey-padl05,liffiton-jar08,lpmms-cj16}, 
+and has also applied in various other contexts.
+%
+In recent years, there has been a surge in the development of novel algorithms 
+for extracting and enumerating MUSes and
+MCSe~\cite{mpms-ijcai15,bacchus-cav15,lpmms-cj16,mipms-sat16,pmjms-aaai18,lagniez-ijcai18,narodytska-ijcai18,bendik-atva18}.

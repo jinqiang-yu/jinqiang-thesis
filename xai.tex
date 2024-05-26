@@ -1,0 +1,391 @@
+\section{Explainable AI} \label{sec:xai}
+%\subsection{Interpretability}
+
+Inspired by the growing adoption of machine learning (ML) across various domains,
+there is a rising demand for eXplainable AI (XAI). 
+%
+Its significance lies not only in fostering trust but also in validating ML
+models~\cite{guidotti-acmcs19,swm-arxiv17}.
+%
+XAI approaches to interpreting the behavior of ML models can be categorized 
+based on different criteria, such as whether they are intrinsic or post-hoc, 
+and whether they are model-agnostic or model-specific. 
+%
+The thesis will exclusively focus on \emph{intrinsic} and \emph{post-hoc} methods.
+
+\textbf{Intrinsic} methods aim to construct ML models that are inherently
+understandable from the beginning.
+%
+Models featuring straightforward architectures, like decision sets~\cite{leskovec-kdd16},
+lists~\cite{rudin-mpc18}, and trees~\cite{rivest-ipl76}, are typically deemed intrinsically 
+interpretable.
+%
+They possess a natural ability to offer straightforward explanations without 
+requiring additional computation.
+
+\textbf{Post-hoc} approaches provide valuable insights into the predictions of 
+individual data points, fostering trust at the level of individual data points.
+%
+These methods produce two primary categories of post-hoc explanations,
+including \emph{feature selection} and \emph{feature attribution}.
+
+\subsection{ML Model Interpretability and Post-Hoc Explanations}\label{sec:posexpl}
+
+
+Interpretability is commonly regarded as a subjective concept, 
+with no formal definition~\cite{lipton-cacm18}.
+%
+An method to assess interpretability involves evaluating the succinctness of information 
+provided by an ML model to justify a specific prediction.
+
+There has been a surge in proposed methods for computing post-hoc 
+explanations recently~\cite{miller2019explanation,molnar-bk20}. 
+%
+The majority of well-known methods are model-agnostic~\cite{guestrin-kdd16,lundberg-nips17,guestrin-aaai18}, 
+where they are allowed to generate explanations for any black-box ML model without 
+the need of access to the model's internal architecture or parameters.
+%
+Model-agnostic approaches are typically categorized as either \emph{feature selection} or
+\emph{feature attribution} methods, depending on the type of explanations they provide, as discussed below.
+
+\textbf{Feature Selection.} 
+A feature selection method aims to identify subsets of features~$\omega \subseteq \feats$, which are
+considered adequate for the prediction~ $c = \cfunc(\mbf{v})$ given instance~$\mbf{v}$.
+%
+As noted above, most feature selection methods are model-agnostic, with
+Anchors~\cite{guestrin-aaai18} standing out as a notable example.
+%
+The adequacy of the chosen feature set for a particular prediction is statistically assessed through
+extensively perturbing the target instance according the distributions observed in training data.
+%
+This evaluation involves various metrics, such as fidelity, precision, and others.
+%
+Therefore, feature selection explanations represented as a set of 
+features~$\omega \subseteq \feats$ should be interpreted as the conjunction
+$\bigwedge_{i\in\omega}{(x_i=v_i)}$ that is considered sufficient for the prediction~$c = \cfunc(\mbf{v})$, where $\mbf{v} \in \cfeats$ and $c \in \clss$.
+
+
+\textbf{Feature Attribution}. 
+An alternative perspective on post-hoc explanations is offered by feature attribution 
+methods, such as LIME~\cite{guestrin-kdd16} and SHAP~\cite{lundberg-nips17}. 
+%
+These methods attribute significance to all features of the model based 
+on perturbations of the target instance, assigning a numerical value $w_i \in \mbb{R}$
+to denote the importance of each feature $i \in \feats$.
+%
+The features can subsequently be ranked from the most significant to the
+least significant based on their importance values.
+%
+Consequently, a feature attribution explanation typically is represented as a linear
+form~$\sum_{i\in\feats}{w_i\cdot x'_i}$, where each $x'_i \in \{0, 1\}$ signifies the absence/ presence of $x_i \in \mbf{x}$. 
+%
+This representation can also be viewed as an approximation of the original black-box model $\cfunc$ for the instance~$\mbf{v} \in \cfeats$.
+%
+Among various feature attribution methods, SHAP~\cite{lundberg-nips17,barcelo-aaai21,barcelo-corr21}
+often stands out as it targets approximating Shapley values, a robust derived from cooperative games in game theory~\cite{shapley-ctg53}.
+
+\subsection{Model-agnostic methods for post-hoc explainability}
+
+As discussed in \autoref{sec:posexpl}, prevalent post-hoc explainability 
+approaches can be generally classified into two categories: 
+those relying on feature attribution and those relying on feature selection.
+%
+The majority of prominent methods are model-agnostic, indicating that they can be 
+employed with any black-box ML model without the need for access to the model's 
+internal structure and parameters.
+
+\subsubsection{Model-agnostic methods for feature attribution}
+
+The best explanation provided for a straightforward model is the model itself
+as it precisely and succinctly illustrates its decision-making process
+and therefore it is straightforward to understand.
+%
+With complex models, e.g. neural networks or ensemble methods, relying on 
+the original model itself as a suitable explanation is not feasible, 
+as these models feature complex structures that are challenging to understand.
+%
+As a result, model-agnostic approaches adopt a simpler explanation model~$g$,
+which is characterized as any interpretable approximation of the original model.
+%
+Notable choices include LIME~\cite{guestrin-kdd16} and SHAP~\cite{lundberg-nips17}.
+
+As introduced in LIME~\cite{guestrin-kdd16}, many model-agnostic aims to 
+explain a prediction $c=\cfunc(\mbf{x})$ given instance~$\mbf{x}$ and ML
+model~$\model$.
+%
+In an explanation model~$g$, a simplified input~$\mbf{x}'$ is commonly used,
+where each $x'_i \in \mbf{x}'$ denotes the absence/ presence of $x_i \in \mbf{x}$.
+%
+These approaches are conventionally referred to as
+\emph{additive feature attribution} methods.
+
+\begin{definition}[Additive feature attribution approaches] \label{def:aff}
+	These methods provide an explanation model represented as
+	a linear function of binary variables:
+	\begin{equation} \label{eq:aff}
+		g(\mbf{x}') = \phi_o + \sum_{i}^{|\feats|} \phi_i x'_i
+	\end{equation}
+	where $\mbf{x}' \in \{0, 1\}^{|\feats|}$ and $\phi_i \in \mbb{R}$ indicates
+	the attribution of feature~$i \in \feats$.
+\end{definition}
+
+
+\textbf{Local Interpretable Model-agnostic Explanations~(LIME)}.
+LIME~\cite{guestrin-kdd16} is a widely used model-agnostic additive feature 
+attribution approach within the domain of XAI. 
+%
+The fundamental idea behind LIME is to approximate the functionality 
+of a black-box ML model~$\model$ for a specific instance by 
+constructing a simpler model~$g$, 
+often referred to as a ``surrogate model'' or ``local model''.
+%
+LIME produces feature attribution explanations by perturbing the input
+instance of interest and examining the resulting changes
+in the model's predictions.
+%
+Explanations are generated in the form of feature importance scores
+as outlined in Definition~\ref{def:aff}.
+%
+These explanations allow users to understand the rationale behind the model's
+decision for a specific instance.
+
+LIME aims to find an explanation represented as a model $g \in \fml{G}$ that 
+integrates both interpretability and local fidelity, where $\fml{G}$ is a 
+set of potential local explanation models. 
+%
+Concretely, they employ $\Omega(g)$ to represent a measure of the explanation's 
+complexity, in contrast to interpretability.
+%
+Additionally, they use $\pi_{\mbf{x}}$ as a measure of proximity between an instance 
+$\mbf{x}$ and $\mbf{v}$, thereby indicating the locality around $\mbf{v}$.
+%
+Finally, $\fml{L}(\cfunc, g, \pi_{\mbf{x}})$ is used to denote a measure of how unfaithful 
+$g$ approximates $\cfunc$ within the locality represented by $\pi_{\mbf{x}}$.
+%
+The explanation generated by LIME is obtained as follows:
+
+\begin{definition}[LIME] \label{def:lime}
+	Given a set of features~$\feats$, a classifier~$\model$ linked with a classification
+	function~$\cfunc$ on these features, and a data point~$\mbf{v} \in \cfeats$,
+	the explanation generated by LIME is defined as
+
+	\begin{equation} \label{eq:lime}
+		\xi = \argmin_{g \in \fml{G}} \fml{L}(\cfunc, g, \pi_{\mbf{x}}) + \Omega(g)
+	\end{equation}
+\end{definition}
+
+In this context, LIME targets minimizing $\fml{L}(\cfunc, g, \pi_{\mbf{x}})$ 
+while keeping  $\Omega(g)$ sufficiently low,
+thus achieving explanations that balance interpretability and local fidelity.
+
+\textbf{SHapley Additive exPlanations~(SHAP)}. %Shapley Values \& SHapley Additive exPlanations}.
+Shapley values were initially proposed by L. Shapley~\cite{shapley-ctg53,shapley-19}
+within the domain of game theory.
+%
+In cooperative games, Shapley values indicate the worth of the game contributed by each player.
+%
+Shapley values have been widely adopted to provide explanations for the predictions of ML models, 
+including methods proposed in~\cite{sk-jmlr10,sk-kis14,lundberg-nips17}, and numerous other works.
+%
+In these methods, each feature (along with its corresponding value) is considered as 
+an independent player when explaining an given instance.
+%
+A numerical value is assigned to each feature, representing its contribution to the prediction.
+
+SHapley Additive exPlanations (SHAP)~\cite{lundberg-nips17,molnar-bk20} is an example of such
+methods that calculates SHAP scores representing Shapley values in the domain of XAI.
+%
+It stands out as one of the most widely adopted model-agnostic feature attribution techniques.
+%
+SHAP computes the impact of each feature's presence or absence on model predictions 
+by taking all possible feature combinations into account and 
+then determining the average contribution of each feature across all potential combinations.
+%
+While the exact computation of SHAP scores is acknowledged to be 
+computationally hard~\cite{barcelo-aaai21,barcelo-corr21}, 
+the computation of SHAP scores becomes polynomial for some families of classifiers.
+
+Consider $\apoints$ : $2^{\feats} \rightarrow 2^{\cfeats}$ defined as follows:
+\begin{equation}
+	\apoints(S;\mbf{v}) := \{ \mbf{x} \in \cfeats\,|\,\wedge_{i \in S}\,x_i=v_i \}
+\end{equation}
+$\apoints(S;\mbf{v})$ represents all the data points in the feature 
+space that share the same values of features as $S$ with $\mbf{v}$.
+
+To generate SHAP scores, SHAP requires a probability distribution across the features.
+%
+Let the probability of a data point be denoted as Pr($\cdot$).
+%
+Moreover, the \emph{expected value} of a classification function $\cfunc$
+is represented as $E[\cfunc]$, with $E[\cfunc | \mbf{v}] = \cfunc(\mbf{v})$
+for a complete data point~$\mbf{v}$. 
+%
+Consider $E[\cfunc | \mbf{v}_{S}]$ denoting the expected value of the boolean function $\cfunc
+| \mbf{v}_S$, defined as follows:
+\begin{equation}
+	E[\cfunc | \mbf{v}_{S}] := \sum\limits_{\mbf{x} \in \apoints(S;\mbf{v})}\,\cfunc(\mbf{x})
+	\cdot \text{Pr}(\mbf{x} | \mbf{v}_S)
+\end{equation}
+
+Consider $\phi: 2^{\feats} \rightarrow \mbb{R}$ defined as follows:
+\begin{equation}
+	\phi(S; \model, \mbf{v}) := E[\cfunc | \mbf{v}_{S}]
+\end{equation}
+
+For a uniform distribution, $\phi(S; \model, \mbf{v})$ is defined as:
+\begin{equation}
+		\phi(S; \model, \mbf{v}) = \frac{1}{2^{|\feats \setminus S|}} \sum\limits_{\mbf{x}
+		\in \apoints(S;\mbf{v})} \cfunc(\mbf{x})
+\end{equation}
+
+The following definitions are used to simplify the notation:
+
+\begin{equation}
+	\Delta(i, S; \model, \mbf{v}) := \phi(S\,\cup\,\{i\}; \model, \mbf{v}) - \phi(S; \model,
+	\mbf{v})
+\end{equation}
+\begin{equation}
+	\zeta(S; \model, \mbf{v}) := \frac{|S|!\,(|\feats| - |S| - 1)!}{|\feats|!}
+\end{equation}
+
+\begin{definition}[SHAP Scores~\cite{lundberg-nips17,blss-jair22,barcelo-aaai21,barcelo-corr21}]\label{def:shap}
+	Given a classifier~$\model$ functioned on a set of features~$\feats$, along
+	with a probability distribution Pr, and an instance~$\mbf{v} \in \cfeats$,
+	let SHAP : $\feats \rightarrow \mbb{R}$ be the SHAP score for feature~$i \in \feats$ on
+	$\mbf{v}$ in relation to $\model$,
+	defined as:
+	\begin{equation}
+		\text{SHAP}(i; \model; \mbf{v}) := \sum\limits_{S \subseteq \feats \setminus
+		i}\,\zeta(S;\model,
+		\mbf{v}) \cdot \Delta(i, S; \model, \mbf{v})
+	\end{equation}
+\end{definition}
+
+Note that the sum of the expected value~$\phi(\emptyset; \model, \mbf{v})$ of 
+the classification function~$\cfunc$ and SHAP scores for all
+features~$\sum\limits_{i \in \feats}\text{SHAP}(i;\model,\mbf{v})$ is associated with the 
+prediction of the given instance~$\cfunc(\mbf{v})$~\cite{sk-jmlr10,sk-kis14,blss-jair22}:
+\begin{equation}
+	\phi(\emptyset; \model, \mbf{v}) + \sum\limits_{i \in \feats}\text{SHAP}(i;\model,\mbf{v})  = \cfunc(\mbf{v})
+\end{equation}
+
+\subsubsection{Model-agnostic methods for feature selection}
+
+\textbf{Anchor}.
+Anchor Explanations (Anchor)~\cite{guestrin-aaai18} stands out as a well-known model-agnostic
+feature selection approach, offering explanations for predictions made by complex ML models.
+%
+The core concept of Anchor is to explore concise and readily comprehensible ``anchor rules'' 
+that adequately explain a model's predictions for individual instances.
+%
+These anchor rules are straightforward, consisting of IF-THEN statements that
+capture important features or conditions determining a specific prediction by the model.
+%
+Anchor explanations are succinct and easily understandable, offering users insights into 
+why the model predicts a particular class for an individual instance.
+
+\begin{definition}[Anchors~\cite{guestrin-aaai18}] \label{def:anchor}
+	Given a classification function $\cfunc$, and a data instance $\mbf{v}$
+	to be explained, $A$ is an anchor if
+	\begin{equation}
+		E_{\fml{D}(\mbf{x}\,|\,A)}[1_{\cfunc(\mbf{x})=\cfunc(\mbf{v})}] \geq \delta,\,
+		A(\mbf{v}) = 1
+	\end{equation}
+	Here, $\fml{D} (\cdot\,|\,A)$ signifies the conditional distribution when the rule $A$ is
+	applied.
+	%
+	$\delta$ ranging from 0 to 1 is a precision threshold for local fidelity.
+	%
+	Only rules with a local fidelity of at least $\delta$ are deemed valid.
+	%
+	Additionally, $1_{\cfunc(\mbf{x}) = \cfunc(\mbf{v})}$ denotes the indicator function.
+\end{definition}
+
+$A$ represents a rule consist of a set of predicates, where
+$A(\mbf{v})$ returns 1 only if all its feature predicates align with the feature values of
+$\mbf{v}$.
+
+\subsection{Limitations of Model-agnostic methods}
+
+Model-agnostic methods overlook the complexities inherent in ML models
+and instead concentrate on examining its input-output behavior.
+%
+Model-agnostic approaches are vulnerable to various significant challenges, 
+such as producing unreliable explanations~\cite{inms-corr19,nsmims-sat19,ignatiev-ijcai20,msi-aaai22} 
+and encountering issues with out-of-distribution sampling~\cite{lakkaraju-aies20a,lb-aies20,yis-corr23,yfis-corr23}.
+%
+These challenges further deteriorate the trust of AI systems.
+%
+For example, unsound explanations can result in catastrophic outcomes in situations
+that are high-risk or safety-critical~\cite{rudin-nature22,rudin-natmi19,vw-pt21,raai-sp19,dmbt-comp17,hcw-chb21}.
+% 
+In addition to unsoundness, model-agnostic explanations have been found to have various 
+other limitations~\cite{lakkaraju-aies20a,lb-aies20,dbjw-ecai20,kvsf-icml20,huang-corr23}.
+
+\subsection{Formal explainability}
+
+In contrast to model-agnostic methods~\cite{guestrin-kdd16,lundberg-nips17,guestrin-aaai18,guidotti-acmcs19}, 
+which lack rigorous guarantees, recent research have investigated formal XAI (FXAI) approaches,
+which are rigorous model-based methods for explainability~\cite{ignatiev-ijcai20,msi-aaai22,ms-rw22,msi-fai23,iims-jair22}.
+%
+The goal of FXAI is to offer rigorous and provable explanations for predictions made by ML models.
+%
+The present theoretical framework is constructed upon two distinct types of formal explanations:
+\emph{abductive explanations~(AXp's)} and \emph{contrastive explanations~(CXp's)},
+both of which focus on feature selection.
+
+\textbf{Abductive Explanations~(AXp's)}. 
+The definition of abductive Explanations~(AXp's) for ML models is built on previous 
+studies~\cite{darwiche-ijcai18,inms-aaai19,darwiche-ecai20,marquis-kr20,msi-aaai22}.
+%
+\emph{Abductive explanations (AXp's)} are minimal subsets of features that are formally 
+demonstrated to be sufficient for explaining an ML prediction, 
+given a formal representation of the classifier of interest.
+%
+Specifically, for a given instance $\mbf{v} \in \cfeats$ and 
+prediction $c = \cfunc(\mbf{v})$, an AXp is a minimal subset of features~$\axp \subseteq \feats$,
+such that
+\begin{equation}\label{eq:axp}
+	\forall(\mbf{x} \in \cfeats). \bigwedge\nolimits_{i \in \axp} 
+	(x_i = v_i) \limply (\cfunc(\mbf{x}) = c)
+\end{equation}
+
+An AXp is are guaranteed to be a minimal subset of features satisfying \autoref{eq:axp},
+and thus another term for an AXp is a prime implicant (PI) explanation~\cite{inms-aaai19}.
+%
+Like other feature selection explanations, AXp's address ``why'' questions,
+by explaining why a particular prediction was made for a specific point 
+in the feature space.
+%
+An AXp provides an answer to the question by presenting a minimal or irreducible 
+set of features that suffice to determine the prediction.
+
+\textbf{Contrastive explanations~(CXp's)}: 
+Another way to explain a model's behavior is to explore explanations to
+answer a ``why not'' question~(why not another prediction was made), 
+or a ``how'' question~(how to change the prediction).
+%
+Explanations addressing ``why not'' or ``how'' questions are known as
+\emph{contrastive explanations~(CXp's)}~\cite{miller-aij19,inams-aiia20,msi-aaai22}. 
+%
+Following previous research, we define a CXp as a minimal subset of features
+that are necessary to change the model's prediction if allowed to change their values.
+%
+Concretely, for a given instance $\mbf{v} \in \cfeats$ and 
+prediction $c = \cfunc(\mbf{v})$, a CXp is a 
+minimal subset of features~$\cxp \in \feats$, such that
+\begin{equation}\label{eq:cxp}
+	\exists(\mbf{x}\in\cfeats).\bigwedge\nolimits_{i\not\in\cxp}(x_i=v_i)\land(\cfunc(\mbf{x})\not=c)
+\end{equation}
+
+\textbf{Minimal hitting set duality}. 
+%
+Recent studies have revealed that there is a \emph{minimal hitting set duality} relationship
+between a AXp's and CXp's for a specific instance $\mbf{v} \in \cfeats$~\cite{inams-aiia20,reiter-aij87}.
+%
+This duality suggests that each AXp for a prediction $c = \cfunc(\mbf{v})$ 
+serves as a \emph{minimal hitting set~(MHS)} of the set of all CXp's for $c$,
+and vice versa: each CXp is an MHS of the set of all AXp's.
+
+An increasing number of recent studies on formal explanations includes (but is not restricted to)
+works~\cite{msgcin-icml21,barcelo-nips21,kutyniok-jair21,darwiche-jair21,kwiatkowska-ijcai21,mazure-cikm21,tan-nips21,rubin-aaai22,msi-aaai22,an-ijcai22,leite-kr22,barcelo-nips22}.
