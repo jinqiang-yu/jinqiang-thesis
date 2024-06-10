@@ -69,13 +69,13 @@ The first rule of a decision list matches an instance is the one classifying the
 %
 Decision lists are typically represented as as a single cascade of 
 IF-THEN-ELSEs, with the final rule serving as a default rule, 
-which assigns all remaining instances to certain class.
+which assigns all remaining instances to a certain class.
 
 Compared with DLs, there are a number of issues in DSs
 complicating their analysis.
 %
 Overlapping is one of the issues, where two or more rules predicting
-different classes fires the same inputs~\cite{ms-rw22,msi-fai23}. 
+different classes fire on the same inputs~\cite{ms-rw22,msi-fai23}. 
 %
 Coverage of feature space is another issue, where instances are not
 fired by any rule in DSs.
@@ -90,7 +90,7 @@ reasoning process for DSs.
 Decision trees~\cite{rivest-ipl76,breiman-bk84,quinlan-bk93,quinlan-ml86}
 are another interpretable machine learning model, often considered to be
 more advantageous than most ML models as their decisions are generally
-straightforward to humans.
+straightforward to understand by humans.
 
 A \emph{decision tree}~(DT) $\tree = (\tnodes, \edges)$ consists of a set of 
 nodes~$\tnodes$ and a set of edges~$\edges$,
@@ -198,7 +198,7 @@ $i \in \{2, \dots. n\}$.
 %
 Each neuron~$o$ in layer~$l_i$ applies weights to them, aggregates them, 
 and afterwards passes the result through an activation function 
-to generate an output.
+to generate an output.\pjs{Perhaps briefly secribe different activation functions!}
 %
 Finally, the output layer~$l_n$ in a neural network~$N$ provides scores across 
 $|\clss|$ classes for an instance~$\mbf{v}$ and assign the class~$c$
