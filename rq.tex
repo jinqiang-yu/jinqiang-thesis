@@ -1,4 +1,4 @@
-\section{Research Questions and Contributions}
+\section{Research Questions and Contributions}\label{sec:rq}
 
 \subsection{Research Questions}
 Motivated by the rapid development in the XAI domain
@@ -16,7 +16,7 @@ The thesis is categorized into three research questions (RQs):
 
 \subsection{Contributions}
 
-\subsection{Contributions for RQ1.}
+\subsubsection{\newm{Contributions for RQ1.}}
 
 To address RQ1, two research works are introduced:
 
@@ -57,11 +57,14 @@ This involves distilling a gradient boosted tree model
 into a decision set as needed,
 making use of formal explanations in the process.
 %
-This technique is a knowledge distillation method and in theory, it can be extended
+\newm{The proposed approach can be applied in the context of entire feature space or a set of
+	training instances.}
+%
+Furthermore, this technique is a knowledge distillation method and in theory, it can be extended
 to other ML models.
 
 
-\subsection{Contributions for RQ2.}
+\subsubsection{\newm{Contributions for RQ2.}}
 
 To tackle RQ2, three research works are proposed: 
 
@@ -76,12 +79,13 @@ Intelligence,} vol. 37, pp. 4123-4131, 2023.
 Approximation. \emph{arXiv preprint arXiv:2307.03380,} 2023.
 
 	\item Jinqiang Yu, Graham Farr, Alexey Ignatiev, and Peter J. Stuckey. Anytime Approximate Formal
-Feature Attribution. \emph{arXiv preprint arXiv:2312.06973,} 2023.
+Feature Attribution. \newm{\emph{In 27th International Conference on Theory and Applications of Satisfiability
+Testing,} 2024. (\textbf{Accepted.})}
 \end{itemize}
 
 
 We introduce a method for leveraging background knowledge,
-i.e. correlations between features, to generate more concise "why" formal explanations
+i.e. \newm{hidden} correlations between features, to generate more concise "why" formal explanations
 which are presumably more understandable to humans,
 and to provide more precise "why not" explanations.
 %
@@ -95,7 +99,7 @@ and also limit the practical applicability of the formal explainability
 techniques.
 
 In addition to the drawback of formal explanations being lengthy,
-the formal approach also fails to provide feature attribution.
+the \newm{earlier} formal approaches also fail to provide feature attribution.
 %the formal approach also fails to address the issue of feature attribution.
 %
 To overcome this limitation, we propose a new formal method for feature attribution.
@@ -111,7 +115,7 @@ Therefore, we further extend our work by developing an anytime approach
 that enables the efficient computation of approximate FFA 
 and thus extending its practical applicability.
 
-\subsection{Contributions for RQ3.}
+\subsubsection{\newm{Contributions for RQ3.}}
 
 To solve RQ3,  one research work is presented:
 \begin{itemize}
@@ -121,13 +125,19 @@ Formal Explainer for Just-In-Time Defect Predictions. \emph{ACM Transactions on 
 \end{itemize}
 
 
-We propose an method to apply formal explainability in a just-in-time (JIT) defect prediction.
+We propose a method to apply formal explainability in a just-in-time (JIT) defect prediction.
 %
 JIT defect prediction aims to predict whether a commit will potentially introduce
 software defects, helping teams in directing their limited resources towards the
 most high-risk commits or pull requests.
 %
-This proposed approach offers explanations that are not only provably correct,
+\newm{However, JIT defect prediction largely remains a black-box, with predictions that are neither explainable nor actionable for practitioners. 
+%
+Although previous studies have applied various model-agnostic methods to provide explanations
+for the predictions made by JIT models,
+these explanations are still not formally sound, robust, or actionable.}
+%
+Motivated by the limitations of model-agnostic methods, the proposed approach offers explanations that are not only provably correct,
 but also guaranteed to be minimal.
 %
 This tackles the shortcomings observed in previous research, where model-agnostic techniques are

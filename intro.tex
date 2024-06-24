@@ -37,7 +37,7 @@ vision transformers~\cite{vtransformer-21}, have significantly influenced the fi
 notably improving image generation capabilities across domains such as computer graphics and artistic design.
 %  [87, 302, 307, 378]
 %
-Moreover, significant milestones have been achieved in the filed of reinforcement learning, 
+Moreover, significant milestones have been achieved in the \newm{field} of reinforcement learning, 
 illustrated by the outstanding performance of AI agents, such as AlphaGo~\cite{rl-nature15,rlchess-science18,rlgo-nature17}.
 %
 These agents outperformed world champions in complex games like chess and Go,
@@ -128,21 +128,16 @@ as follows.
 		can potentially trigger unexpected consequences~\cite{dear-alr19}.
 \end{itemize}
 
-In light of the identified critical issues in ML, there is an imperative demand
+In light of the identified critical issues in ML
+\newm{and driven by recent proposals for regulating 
+ML/AI systems~\cite{euaiact21,unesco21,vg-nmi21,radem-rai20},
+as well as existing recommendations~\cite{hlegai20,oecd21},}
+there is an imperative demand
 to build trust in ML/AI systems.
 %
 This need has led to rapid development in the research field of \emph{eXplainable AI}~(XAI),
 which is aimed at making a bridge between the internal mechanisms of ML/AI systems and human comprehension, 
 ultimately targeting establishing \emph{trustworthy AI}~\cite{ms-rw22}.
-
-
-%In response to the current state of affairs and driven by recent regulations and
-%recommendations~\cite{hlegai20,oecd21}, along with existing proposals for 
-%ML/AI system regulation~\cite{euaiact21,unesco21,vg-nmi21,radem-rai20},
-%there is an urgent need to build trust in the operation of ML/AI systems. This demand has spurred
-%rapid growth in the research domain of \emph{eXplainable AI}~(XAI). XAI can be defined as the
-%process of bridging the gap between the inner workings of ML/AI systems and human understanding, all
-%with the goal of establishing trustworthy AI~\cite{ms-rw22}.
 
 \textbf{The significance of XAI}.
 %
@@ -153,7 +148,7 @@ The main reasons of the significance of XAI are identified
 as follows.
 
 \begin{itemize}
-	\item Reducing Bias:
+	\item Reducing Bias \newm{ and Facilitating Fairness}:
 		%
 		XAI can contribute to identifying and alleviating bias
 		in ML models.
@@ -174,7 +169,7 @@ as follows.
 	\item Boosting productivity:
 		%
 		Methods facilitating explainability can quickly uncover errors and/or areas
-		requiring improvement, simplifying tasks for ML operations~(MLOps) teams who are responsible for 
+		requiring improvement, simplifying tasks for ML operations~(ML\-Ops) teams who are responsible for 
 		efficiently monitoring and maintaining AI systems.
 		%
 		For instance, the insight of particular features that drive the model's output 
@@ -233,7 +228,11 @@ namely intrinsic, post-hoc, model-agnostic, and model-specific methods.
 		The two primary branches of research in post-hoc explanations include
 		\emph{feature selection} techniques, exemplified by Anchors~\cite{guestrin-aaai18}, 
 		and \emph{feature attribution} methods, such as LIME~\cite{guestrin-kdd16} and SHAP~\cite{lundberg-nips17}.
+		%
+		\newm{Post-hoc methods can be further categorized into two model-agnostic and model
+		specific techniques:}
 
+	\begin{itemize}
 	\item \emph{Model-agnostic} techniques~\cite{guestrin-kdd16,lundberg-nips17,guestrin-aaai18} are 
 		applicable to any ML model, including complex models.
 		%
@@ -247,6 +246,7 @@ namely intrinsic, post-hoc, model-agnostic, and model-specific methods.
 		Undoubtedly, model-agnostic methods are viewed as the prevailing approach 
 		in the domain of XAI.
 	
+	
 	\item \emph{Model-specific} methods are customized for specific categories of models
 		and are not universally applicable.
 		%
@@ -257,6 +257,7 @@ namely intrinsic, post-hoc, model-agnostic, and model-specific methods.
 		There is an increasing tendency to apply formal approaches for ML systems
 		verification~\cite{sss-cacm22}, with logic-based explainability playing a crucial role in 
 		this trend~\cite{ignatiev-ijcai20,msi-aaai22,darwiche-lics23,ms-rw22,msi-fai23}.
+	\end{itemize}
 \end{itemize}
 
 To gain a deeper insight into these XAI approaches, interested readers can refer to
@@ -289,11 +290,3 @@ The thesis is organized as follows:
 	\item \autoref{chap:conc} presents the conclusions and feature work.
 \end{itemize}
 
-%This dissertation is organised as follows:
-%• Chapter 2 reviews the literature that related to pathfinding problem.
-%• Chapter 3 presents our techniques [45, 46] to efficiently find optimal and suboptimal obstacle-avoiding path in a Euclidean plane.
-%• Chapter 4 covers our efficient oracle-based approach [47] for retrieving the shortest path in a static road network.
-%• Chapter 5 describes our enhancement techniques [49] on the state-of-the-art algorithms, TCH, for finding the shortest path in a time-dependent road network.
-%• Chapter 6 shows our novel cluster reasoning techniques [50] to enhances the performance of the CBS algorithm for solving the classic MAPF problem.
-%• Chapter 7 describes our proposed platform [51] for continuously monitoring the progress of MAPF algorithms.
-%• Chapter 8 concludes our research and discusses future works.

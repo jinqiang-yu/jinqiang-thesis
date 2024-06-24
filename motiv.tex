@@ -1,4 +1,4 @@
-\section{Motivations of Formal Explainability}
+\section{Motivations of Formal Explainability} \label{sec:motiv}
 
 While model-agnostic methods are prevalent in the XAI domain, 
 they encounter challenges regarding the quality of explanations. 
@@ -34,7 +34,7 @@ Formal XAI~(FXAI) approaches, providing \emph{logic-based explanations} or
 \emph{formal explanations},
 stand as an alternative to  model-agnostic methods.
 %
-These formal XAI methods are characterized by model-specific
+These formal XAI methods are characterized by \newm{model-specific}
 and logic-based XAI methods~\cite{ignatiev-ijcai20,msi-aaai22,darwiche-lics23,ms-rw22}.
 %
 FXAI is aimed at offering rigorous and provable explanations for 
@@ -50,24 +50,21 @@ or \emph{how} to change the prediction produced by the ML model.
 Several studies introduce formal methods for computing explanations~\cite{amgoud-ecsqaru21,ll-clar21,rcblt-ai21,rcbt-kr20,wgh-aies19}, with one prominent
 approach in formal explainability building on abductive reasoning~\cite{inms-corr19,inms-aaai19,ignatiev-ijcai20,msgcin-nips20,ims-sat21,msi-aaai22,imsns-ijcai21,hiicams-aaai22,barcelo-nips22,hiims-kr21,hims-aaai23,huang-tacas23,ims-ijcai21,msgcin-icml21,yisnms-aaai23,snimmsv-aaai22,nsmims-sat19}.
 
-%\subsubsection{Compilation-based computation of formal explanations.}
-%This approach compiles the decision function of a given ML model into a tractable circuit [320]. The obtained circuit is tractable and replicates the input-output behavior of the ML models. The tractability, i.e. efficient representation and manipulation, of the resulting circuits solely depends on the queries and transformations [99, 341] they can supports. Once the target tractable circuit is obtained, this method can be highly effective. By examining the resulting circuit, formal explanations for any instance become easily accessible [320]. However, in practice, the process of compilation is worst-case exponential in both time and space [72, 178].
-
 \textbf{Abductive Reasoning for Formal Explanations}.
 %
 In general, abduction-based approaches involves encoding a given
 ML model into a logical-based representation.
 %
 Therefore, the efficiency of generating explanations through
-these methods relies on optimizing the encoding from ML models 
+these methods relies on optimizing the encoding \newm{of} ML models 
 to logic-based representations, along with the capabilities of automated 
 reasoning tools, e.g. SAT~(Boolean satisfiability), SMT~(satisfiability modulo theories), 
 and QBF~(quantified Boolean formula) solvers.
 %
-However, recent research has presented a technique that uses diverse 
-robustness tools to generate formal explanations~\cite{hms-corr23d}, 
-which does not explicitly demand the encoding from ML models 
-to logic-based representations.
+%However, recent research has presented a technique that uses diverse 
+%robustness tools to generate formal explanations~\cite{hms-corr23d}, 
+%which does not explicitly demand the encoding \newm{of} ML models 
+%to logic-based representations.
 
 \textbf{Explainability for Interpretable Models}.
 %
@@ -83,7 +80,8 @@ Recent studies have revealed that formal explanations for decision trees
 can be notably more compact than explanations offered by interpretable ML models~\cite{iims-corr20,iims-jair22},
 with decision tree explanations aligning with the paths within the tree.
 %
-Moreover, the interpretability of decision lists and sets presents challenges~\cite{msi-fai23}. 
+Moreover, the interpretability of decision lists presents challenges~\cite{msi-fai23}. 
+%and sets 
 %
 These findings indicate that even interpretable models still require explanation or 
 further interpretability improvement.
