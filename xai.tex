@@ -27,7 +27,7 @@ requiring additional computation.
 individual data points, fostering trust at the level of individual data points.
 %
 These methods produce two primary categories of post-hoc explanations,
-including \emph{feature selection} and \emph{feature attribution}.
+including \emph{feature selection} and \emph{feature attribution} \newm{explanations}.
 
 \subsection{ML Model Interpretability and Post-Hoc Explanations}\label{sec:posexpl}
 
@@ -110,7 +110,7 @@ which is characterized as any interpretable approximation of the original model.
 %
 Notable choices include LIME~\cite{guestrin-kdd16} and SHAP~\cite{lundberg-nips17}.
 
-As introduced in LIME~\cite{guestrin-kdd16}, many model-agnostic aims to 
+As introduced in LIME~\cite{guestrin-kdd16}, many model-agnostic \newm{approaches} aim to 
 explain a prediction $c=\cfunc(\mbf{x})$ given instance~$\mbf{x}$ and ML
 model~$\model$.
 %
@@ -189,12 +189,12 @@ Shapley values have been widely adopted to provide explanations for the predicti
 including methods proposed in~\cite{sk-jmlr10,sk-kis14,lundberg-nips17}, and numerous other works.
 %
 In these methods, each feature (along with its corresponding value) is considered as 
-an independent player when explaining an given instance.
+an independent player when explaining a given instance.
 %
 A numerical value is assigned to each feature, representing its contribution to the prediction.
 
 SHapley Additive exPlanations (SHAP)~\cite{lundberg-nips17,molnar-bk20} is an example of such
-methods that calculates SHAP scores representing Shapley values in the domain of XAI.
+methods that calculates SHAP scores \newm{approximating} Shapley values in the domain of XAI.
 %
 It stands out as one of the most widely adopted model-agnostic feature attribution techniques.
 %
@@ -306,7 +306,7 @@ $A$ represents a rule consist of a set of predicates, where
 $A(\mbf{v})$ returns 1 only if all its feature predicates align with the feature values of
 $\mbf{v}$.
 
-\subsection{Limitations of Model-agnostic methods}
+\subsection{Limitations of Model-agnostic methods} \label{sec:malimit}
 
 Model-agnostic methods overlook the complexities inherent in ML models
 and instead concentrate on examining its input-output behavior.
@@ -314,6 +314,9 @@ and instead concentrate on examining its input-output behavior.
 Model-agnostic approaches are vulnerable to various significant challenges, 
 such as producing unreliable explanations~\cite{inms-corr19,nsmims-sat19,ignatiev-ijcai20,msi-aaai22} 
 and encountering issues with out-of-distribution sampling~\cite{lakkaraju-aies20a,lb-aies20,yis-corr23,yfis-corr23}.
+%
+\newm{In addition, even exact Shapley values fail to capture feature
+relevance~\cite{hms-corr23,hms-corr23c,hms-ijar-24}.}
 %
 These challenges further deteriorate the trust of AI systems.
 %
@@ -323,7 +326,7 @@ that are high-risk or safety-critical~\cite{rudin-nature22,rudin-natmi19,vw-pt21
 In addition to unsoundness, model-agnostic explanations have been found to have various 
 other limitations~\cite{lakkaraju-aies20a,lb-aies20,dbjw-ecai20,kvsf-icml20,huang-corr23}.
 
-\subsection{Formal explainability}
+\subsection{Formal explainability} \label{sec:fxai}
 
 In contrast to model-agnostic methods~\cite{guestrin-kdd16,lundberg-nips17,guestrin-aaai18,guidotti-acmcs19}, 
 which lack rigorous guarantees, recent research have investigated formal XAI (FXAI) approaches,
@@ -347,8 +350,8 @@ Specifically, for a given instance $\mbf{v} \in \cfeats$ and
 prediction $c = \cfunc(\mbf{v})$, an AXp is a minimal subset of features~$\axp \subseteq \feats$,
 such that
 \begin{equation}\label{eq:axp}
-	\forall(\mbf{x} \in \cfeats). \bigwedge\nolimits_{i \in \axp} 
-	(x_i = v_i) \limply (\cfunc(\mbf{x}) = c)
+	\forall(\mbf{x} \in \cfeats).\left[\bigwedge\nolimits_{i \in \axp} 
+	(x_i = v_i)\right] \limply (\cfunc(\mbf{x}) = c)
 \end{equation}
 
 An AXp is are guaranteed to be a minimal subset of features satisfying \autoref{eq:axp},
@@ -376,7 +379,7 @@ Concretely, for a given instance $\mbf{v} \in \cfeats$ and
 prediction $c = \cfunc(\mbf{v})$, a CXp is a 
 minimal subset of features~$\cxp \in \feats$, such that
 \begin{equation}\label{eq:cxp}
-	\exists(\mbf{x}\in\cfeats).\bigwedge\nolimits_{i\not\in\cxp}(x_i=v_i)\land(\cfunc(\mbf{x})\not=c)
+	\exists(\mbf{x}\in\cfeats).\left[\bigwedge\nolimits_{i\not\in\cxp}(x_i=v_i)\right]\land(\cfunc(\mbf{x})\not=c)
 \end{equation}
 
 \textbf{Minimal hitting set duality}. 
@@ -384,9 +387,25 @@ minimal subset of features~$\cxp \in \feats$, such that
 Recent studies have revealed that there is a \emph{minimal hitting set duality} relationship
 between a AXp's and CXp's for a specific instance $\mbf{v} \in \cfeats$~\cite{inams-aiia20,reiter-aij87}.
 %
-This duality suggests that each AXp for a prediction $c = \cfunc(\mbf{v})$ 
+\newm{\begin{definition}[Minimal hitting set duality]
+	\label{def:mhs}
+	Consider two sets~$S_1$ and $S_2$. 
+	There is a \emph{minimal hitting set~(MHS)} duality relationship
+	between $S_1$ and $S_2$, if $S_1$ = MHS($S_2$) and
+	$\mbb{S}_2$ = MHS($S_1$), where $\mhs(S)$ indicates the minimal hitting sets of $S$,
+	i.e. $\mhs(S)$ is the minimal sets hitting one or more elements with each subset in $S$.
+	% 
+	Concretely, 
+	Formally, $\mins(S) = \{ s \in S ~|~ \forall t
+\subsetneq s,~t \not\in S\}$ identifies the subset-minimal elements of a
+set of sets, $\hs(S) = \{ t \subseteq (\cup S) ~|~ \forall s \in S,~
+t \cap s \neq \emptyset\}$, and $\mhs(S) = \mins(\hs(S))$.
+\end{definition}}
+%
+\newm{This duality suggests that each AXp for a prediction $c = \cfunc(\mbf{v})$ 
 serves as a \emph{minimal hitting set~(MHS)} of the set of all CXp's for $c$,
-and vice versa: each CXp is an MHS of the set of all AXp's.
+and vice versa: each CXp is an MHS of the set of all AXp's.}
+
 
 An increasing number of recent studies on formal explanations includes (but is not restricted to)
 works~\cite{msgcin-icml21,barcelo-nips21,kutyniok-jair21,darwiche-jair21,kwiatkowska-ijcai21,mazure-cikm21,tan-nips21,rubin-aaai22,msi-aaai22,an-ijcai22,leite-kr22,barcelo-nips22}.

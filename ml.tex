@@ -2,7 +2,8 @@
 
 \subsection{Classification Problems}
 A classification problem considers a set of features $\feats=\{1, \ldots, m\}$
-and a set of classes $\clss = \{1, 2, \ldots, k\}$. 
+and a set of classes~\footnote{\newm{Non-integer classes can be mapped in to a set of k numeric
+	classes}} $\clss = \{1, 2, \ldots, k\}$. 
 %$\footnote{Any set of classes $\{c_1,\ldots,c_k\}$ can
 %always be mapped into the set of the corresponding indices
 %$\{1,\ldots,k\}$.}
@@ -49,7 +50,7 @@ machine learning models, representing families of rule-based classifiers.
 These models offer users concise explanations directly from the models themselves.
 
 A \emph{decision rule} is structured as ``IF antecedent THEN
-prediction'', with the antecedent being a set of feature literals.
+prediction'', with the antecedent being a set of feature \newm{conditions}.
 %
 A rule is considered to assign an instance $\mbf{v}\in\feats$
 to class $c\in\clss$ if its antecedent is \emph{compatible} with
@@ -71,10 +72,10 @@ Decision lists are typically represented as as a single cascade of
 IF-THEN-ELSEs, with the final rule serving as a default rule, 
 which assigns all remaining instances to a certain class.
 
-Compared with DLs, there are a number of issues in DSs
-complicating their analysis.
+%Compared with DLs, there are a number of issues in DSs
+%complicating their analysis.
 %
-Overlapping is one of the issues, where two or more rules predicting
+Overlapping is one of the issues \newm{in DSes}, where two or more rules predicting
 different classes fire on the same inputs~\cite{ms-rw22,msi-fai23}. 
 %
 Coverage of feature space is another issue, where instances are not
@@ -155,9 +156,9 @@ assigning the class with the highest score, i.e. $\textrm{argmax}_{c \in
 [|\fml{K}]|} w(\mbf{v},c)$.
 
 
-\subsection{Neural Networks}
+\subsection{Neural Networks} \label{sec:nn}
 While these interpretable machine learning models including decision sets, 
-decision lists, and decision tree are straightforward to explain their predictions, 
+decision lists, and decision trees are straightforward to explain their predictions, 
 they often lack the accuracy achieved by other state-of-the-art models. 
 %
 Neural networks~\cite{schm-nn15}, which are the fundamental structures of 
@@ -179,10 +180,11 @@ layer~$l_n$ acts as the output layer.
 Functionally, a neural network defines a mapping~$N: \cfeats \limply \clss$.
 %
 In classification tasks, the output yields scores (or probabilities)
-across $|\clss|$ classes, with the class receiving the highest
+across $|\clss|$ classes, with the class~\newm{$c \in
+[|\fml{K}]|$} receiving the highest
 score being the prediction of the input instance~$\mbf{v}$.
 %
-Each neuron~$o$ in a neural network $N$ forms interconnected 
+Each neuron~$o$ in a neural network~$N$ forms interconnected 
 nodes arranged in layers. 
 %
 These neurons collaborate to process and convey information. 
@@ -196,15 +198,30 @@ instance~$\mbf{v}$ (for the input layer~$l_1$, i.e. $i=1$) or
 the outputs of the neurons in the previous layer~$l_{i-1}$,
 $i \in \{2, \dots. n\}$.
 %
-Each neuron~$o$ in layer~$l_i$ applies weights to them, aggregates them, 
+Each neuron~$o$ in layer~$l_i$ applies weights to them, aggregates them
+with a bias term, 
 and afterwards passes the result through an activation function 
-to generate an output.\pjs{Perhaps briefly secribe different activation functions!}
+to generate an output~\newm{$a_o^{(l_i)}$, i.e. 
+\begin{equation}
+	a_o^{(l_i)} = \sigma(\sum_{j=1}^{n_{i-1}} w_{oj}^{(l_i)} a_j^{(l_{i-1})} + b_o^{(l_i)}) 
+\end{equation}
+where 
+\begin{itemize}
+	\item $\sigma$ is the activation function of neuron~$o$ in layer~$o_i$, 
+		e.g. Softmax, ReLU, and tanh.
+	\item $n_{i-1}$ is the number of neurons in layer~$l_{i-1}$.
+	\item $a_j^{(l_{i-1})}$ is the output of the neuron~$j$ in layer~$l_{i-1}$
+	\item $w_{oj}^{(l_i)}$ is the weight of neuron~$o$ in layer~$l_i$ for $a_j^{(l_{i-1})}$.
+	\item $b_o^{l_i}$ is the bias term for neuron~$o$ in layer~$l_i$.
+\end{itemize}}
+
+%\pjs{Perhaps briefly secribe different activation functions!}
 %
 Finally, the output layer~$l_n$ in a neural network~$N$ provides scores across 
-$|\clss|$ classes for an instance~$\mbf{v}$ and assign the class~$c$
+$|\clss|$ classes for an instance~$\mbf{v}$ and assign the class~$c \in |\clss|$
 with the highest score.
 
 However, although neural networks can deliver exceptional performance, they often lack 
-of explainability, leading to challenges in understanding their predictions.
+explainability, leading to challenges in understanding their predictions.
 %
 This highlights the necessity for explainable AI.

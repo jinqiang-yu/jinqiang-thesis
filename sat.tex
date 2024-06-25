@@ -100,19 +100,21 @@ Informally, an MCS can be viewed as the minimal approach to ``correcting''
 the unsatisfiability of an unsatisfiable formula $\cnf$.
 %
 One of the key findings in analyzing unsatisfiable CNF formulas is
-the minimal hitting set (MHS) duality relationship between MUSes 
+the MHS
+%minimal hitting set (MHS) 
+duality relationship between MUSes 
 and MCSes~\cite{reiter-aij87,lozinskii-jetai03}.
 %
 Concretely, given the sets of all MUSes and MCSes of formula~$\cnf$
 denoted as $\mbb{U}_\cnf$ and $\mbb{C}_\cnf$ respectively,  
 we have $\mbb{U}_\cnf = \mhs(\mbb{C}_\cnf)$ and $\mbb{C}_\cnf = \mhs(\mbb{U}_\cnf)$,
 where $\mhs(S)$ represents the minimal hitting sets of $S$, i.e.
-$\mhs(S)$ is the minimal sets sharing at least one element with each subset in $S$.
+$\mhs(S)$ is the minimal sets sharing one element with each subset in $S$.
 %
-Formally, $\mins(S) = \{ s \in S ~|~ \forall t
-\subsetneq s,~t \not\in S\}$ identifies the subset-minimal elements of a
-set of sets, $\hs(S) = \{ t \subseteq (\cup S) ~|~ \forall s \in S,~
-t \cap s \neq \emptyset\}$, and $\mhs(S) = \mins(\hs(S))$.
+%Formally, $\mins(S) = \{ s \in S ~|~ \forall t
+%\subsetneq s,~t \not\in S\}$ identifies the subset-minimal elements of a
+%set of sets, $\hs(S) = \{ t \subseteq (\cup S) ~|~ \forall s \in S,~
+%t \cap s \neq \emptyset\}$, and $\mhs(S) = \mins(\hs(S))$.
 %
 This finding of the MHS duality relationship has been widely used 
 in developing algorithms for MUSes and MCSes~\cite{stuckey-padl05,liffiton-jar08,lpmms-cj16}, 
