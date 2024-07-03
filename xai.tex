@@ -392,20 +392,20 @@ between a AXp's and CXp's for a specific instance $\mbf{v} \in \cfeats$~\cite{in
 	Consider two sets~$S_1$ and $S_2$. 
 	There is a \emph{minimal hitting set~(MHS)} duality relationship
 	between $S_1$ and $S_2$, if $S_1$ = MHS($S_2$) and
-	$\mbb{S}_2$ = MHS($S_1$), where $\mhs(S)$ indicates the minimal hitting sets of $S$,
-	i.e. $\mhs(S)$ is the minimal sets hitting one or more elements with each subset in $S$.
+	$S_2$ = MHS($S_1$), where $\mhs(S)$ indicates the minimal hitting sets of $S$,
+	i.e. \newmm{$\mhs(S)$ is the minimal sets sharing at least one element with each subset in
+		$S$.}
 	% 
-	Concretely, 
-	Formally, $\mins(S) = \{ s \in S ~|~ \forall t
-\subsetneq s,~t \not\in S\}$ identifies the subset-minimal elements of a
-set of sets, $\hs(S) = \{ t \subseteq (\cup S) ~|~ \forall s \in S,~
-t \cap s \neq \emptyset\}$, and $\mhs(S) = \mins(\hs(S))$.
+	\newmm{Concretely, given $\mins(S) = \{ s \in S ~|~ \forall t
+\subsetneq s,~t \not\in S\}$ returning the subset-minimal elements of a
+set of sets~$S$, and $\hs(S) = \{ t \subseteq (\cup S) ~|~ \forall s \in S,~
+t \cap s \neq \emptyset\}$, $\mhs(S) = \mins(\hs(S))$.}
 \end{definition}}
 %
 \newm{This duality suggests that each AXp for a prediction $c = \cfunc(\mbf{v})$ 
 serves as a \emph{minimal hitting set~(MHS)} of the set of all CXp's for $c$,
-and vice versa: each CXp is an MHS of the set of all AXp's.}
+and vice versa: each CXp is \newmm{a} MHS of the set of all AXp's.}
 
 
-An increasing number of recent studies on formal explanations includes (but is not restricted to)
+An increasing number of recent studies on formal explanations include (but is not restricted to)
 works~\cite{msgcin-icml21,barcelo-nips21,kutyniok-jair21,darwiche-jair21,kwiatkowska-ijcai21,mazure-cikm21,tan-nips21,rubin-aaai22,msi-aaai22,an-ijcai22,leite-kr22,barcelo-nips22}.

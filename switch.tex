@@ -1,0 +1,218 @@
+
+
+%\begin{frame}{Anytime Approximate Formal Feature Attribution~(RQ2)}
+%	\begin{itemize}
+%		\item AXp's diverse then we can target AXp's
+%
+%		\item FFA is proposed to feature attribution based heuristic approaches but hard to
+%			compute %, as deciding if a feature has a non-zero attribu- tion is at least as hard as deciding feature relevancy
+%
+%		\item recalled that FFA can be efficiently computed by making use of the hitting set duality between AXp’s and CXp’s. By trying to enumerate CXp’s, a side effect of the algorithm is to discover AXp’s.
+%
+%		\item issue: In fact, the algorithm will usually find many AXp’s before finding the first CXp. 
+%
+%		\item The AXp’s are guaranteed to be diverse, since they need to be broad in scope
+%			to ensure that the CXp is large enough to hit all AXp’s that apply to the
+%			decision.
+%
+%		\item observations: Using AXp’s collected as a side effect of CXp enumeration is effective at the
+%			start of the enumeration.
+%
+%		\item But as we find more and more AXp’s as side effects we eventually get to a point where many more CXp’s are generated than AXp’s.
+%		
+%		\item Experimentation: enumerate all AXp’s then indeed we should not rely on the
+%			side effect behavior, but simply enumerate AXp’s directly. This leads to a
+%			quandary: to get fast accurate approximations of FFA we wish to enumerate
+%			CXp’s and generate AXp’s as a side effect. But to compute the final (exact) correct FFA we wish to compute all AXp’s, and we are better off directly enumerating AXp’s.
+%
+%		\item our approach: we develop an anytime approach to computing approximate FFA, by
+%			starting with CXp enumeration, and then dynamically switching to AXp
+%			enumeration when the rate of AXp discovery by CXp enumeration drops. (switch
+%			when meeting criteria)
+%
+%		\item In doing so, we are able to quickly get accurate approxima- tions, but also arrive to the full set of AXp’s quicker than pure CXp enumeration. 
+%
+%		%As direct CXp enumeration is fea- sible to do without the need to resort to the hitting set dual- ity (Marques-Silva and Ignatiev 2022), one may want to esti- mate FFA by first enumerating CXp’s. The second contribu- tion of this paper is to investigate this alternative approach and to show that even if a(n) (in)complete set of CXp’s is given, determining FFA is computationally expensive being #P-hard even if all CXp’s are of size two.
+%	\end{itemize}
+%
+%\end{frame}
+
+\begin{frame}{Anytime Approximate Formal Feature Attribution~(RQ2)}
+	\textbf{Issue}: Exact FFA hard to compute.
+
+	\textbf{Observations}: 
+	\begin{itemize}
+		\item FFAs are computed by collected AXp's as a side effect of CXp
+	enumeration.
+		\item Usually find many AXp’s before finding the first CXp. 
+
+		\item AXp’s are diverse. %Need to be broad to ensure that the CXp is large enough to hit all AXp’s.
+		
+		\item Diverse AXp's $\rightarrow$ good approximation of FFA
+
+		\item AXp enumeration can get\emph{exact} FFA faster% $\emph{exact}$
+	\end{itemize}
+	
+	\textbf{Our approach}: 
+		\begin{itemize}
+			\item Anytime approach to computing approximate FFA
+			\item Start with CXp enumeration
+			\item Switch to AXp enumeration at some point.
+		\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Algorithm with switching}
+	\input{switchalg}
+\end{frame}
+
+
+\begin{frame}{Switching Criteria}
+	\small 
+
+	Observe that normally $|\axp| > |\cxp|$
+	
+	\textbf{Criterion 1}:
+	Switch when CXp's on average are \emph{much} smaller than AXp's, i.e. when
+	\begin{align}
+	    \frac{\sum_{\fml{X}\in\axps^w}{|\fml{X}|}}{\sum_{\fml{Y}\in\cxps^w}{|\fml{Y}|}} \geq \alpha,
+	\end{align}
+	\textbf{Criterion 2}:
+	Switch when the average CXp size ``stabilizes''.
+	\begin{align}
+	    \left|\left|\fml{Y}_{\text{new}}\right|-\frac{\sum_{\fml{Y}\in\cxps^w}{|\fml{Y}|}}{w}\right| \leq \varepsilon,
+	\end{align}
+	\textbf{Rational}: 
+	\begin{itemize}
+		\item CXp extraction: check satisfiable; cheap 
+		\item AXp extraction: check unsatisfiable, expensive
+		\item Before switching: ensure AXp's diverse
+		\item After switching: single call for AXp, multiple calls for CXp extraction
+	\end{itemize}
+
+	%Given window size~$w$, switching criteria build on %for both axp's and cxp's, both criterio build on 
+	%\begin{itemize}
+	%	\item the average \emph{size} of the last $w$ AXp's %and
+	%	\item the size of last $w$ CXp's enumerated % in the most recent iterations of the MARCO algorithm.
+	%\end{itemize}
+\end{frame}
+
+%\begin{frame}{Criterion 1}
+%Switch when CXp's on average are \emph{much} smaller than AXp's, i.e. when
+%
+%\begin{align}\label{eq:cond1}
+%    \frac{\sum_{\fml{X}\in\axps^w}{|\fml{X}|}}{\sum_{\fml{Y}\in\cxps^w}{|\fml{Y}|}} \geq \alpha,
+%\end{align}
+%
+%where $\axps^w$/ $\cxps^w$:  last $w$ AXp's/ CXp's
+%%\begin{itemize}
+%%	\item $\axps^w$/ $\cxps^w$:  last $w$ AXp's/ CXp's
+%%	\item $\alpha\in\mbb{R}$: predefined parameter
+%%\end{itemize}
+%
+%\textbf{Rational}: 
+%	%Recall that extraction of a subset-minimal dual explanation is done by deciding the
+%	%validity of the corresponding predicate, either \eqref{eq:axp} or \eqref{eq:cxp}, while iteratively
+%	%removing features from the candidate feature set.
+%	%
+%	%As such, if the vast majority of CXp's is small, their extraction leads to the lion's share of the decision oracle calls being \emph{satisfiable}.
+%	%
+%	%On the contrary, extracting large AXp's as dual explanations leads to most of the oracle calls proving \emph{unsatisfiability}.
+%	%
+%	%Hence, we prefer to deal with cheap satisfiable calls rather than expensive unsatisfiable ones.
+%	\begin{itemize}
+%		\item CXp extraction: Check satisfiable; cheap 
+%		\item AXp extraction: check unsatisfiable, expensive
+%		\item Before switching: ensure AXp's diverse
+%		\item After switching: single call for AXp, multiple calls for CXp extraction
+%	\end{itemize}
+%\end{frame}
+%
+%\begin{frame}{Criterion 2}
+%Switch when the average CXp size ``stabilizes''.
+%%
+%%Here, let us denote a new CXp being just computed as $\fml{Y}_{\text{new}}$.
+%%%
+%%Then the second criterion can be examined by checking if the following holds:
+%
+%\begin{align}\label{eq:cond2}
+%    \left|\left|\fml{Y}_{\text{new}}\right|-\frac{\sum_{\fml{Y}\in\cxps^w}{|\fml{Y}|}}{w}\right| \leq \varepsilon,
+%\end{align}
+%
+%\begin{itemize}
+%	\item $\fml{Y}_{\text{new}}$: a new CXp
+%	\item $\cxps^w$:  last $w$ CXp's
+%\end{itemize}
+%%with $\varepsilon\in\mbb{R}$ being another numeric parameter.
+%
+%\textbf{Rational}: 
+%\begin{itemize}
+%	\item Signal: AXp's diverse enough for all the CXp's to be of roughly equal size
+%	\item Diverse AXp's $\rightarrow$ good approximate FFA
+%\end{itemize}
+%
+%%Overall, the switching can be performed when either of the two conditions \eqref{eq:cond1}--\eqref{eq:cond2} is satisfied.
+%\end{frame}
+
+
+
+\begin{frame}{Experimental Setup}
+	
+	\textbf{Datasets}: 3 Images and 2 text data
+	
+	\textbf{Metrics}: 
+	\begin{itemize}
+		\item \textbf{Errors}:  Manhattan distance, i.e. the sum of absolute differences across all features. 
+			\item \textbf{Kendall's Tau}: Similarity of two rankings. 
+			Ranging $[-\text{1}, \text{1}]$.
+			The higher the closer.
+
+		%\item \textbf{Kendall's Tau}/ \textbf{RBO}: Similarity of two rankings. 
+		%	Ranging $[-\text{1}, \text{1}]$ and $[\text{0}, \text{1}]$. 
+		%The higher the closer.
+	\end{itemize}
+	
+	\textbf{Average Runtime}: 
+	\begin{itemize}
+		\item MARCO-S (Our approach): 3509.50s (9.26s $-$ 30881.55s)
+		\item MARCO-A (AXp enumeration): 3255.30s (2.15s $-$ 29191.42s)
+		\item MARCO-C (CXp enumeration): 19311.87s (9.39s $-$ 55951.57s)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Error Results}
+	\begin{figure}[!t]
+	\centering
+	    \includegraphics[width=0.6\textwidth]{plots/switch/switch-slide50-gap2-diff1-normalise2-error}
+	    \caption{FFA error over time.} 
+	    \label{fig:error}
+	\end{figure}
+		{\large\adfbullet{9} \color{orange}\normalsize MARCO-S}: Propose approach
+		{\large\adfbullet{9} \color{orange}\normalsize MARCO-A}: AXp enumeration  \\   
+		{\large\adfbullet{9} \color{orange}\normalsize MARCO-C}: CXp enumeration
+\end{frame}
+
+\begin{frame}{Kendall's Tau Results}
+	\begin{figure}[!t]
+		\centering
+	    \includegraphics[width=0.6\textwidth]{plots/switch/switch-slide50-gap2-diff1-coef-kendalltau}
+	    \caption{Kendall's Tau over time.}
+	    \label{fig:tau}
+	     \end{figure}
+		{\large\adfbullet{9} \color{orange}\normalsize MARCO-S}: Propose approach
+		{\large\adfbullet{9} \color{orange}\normalsize MARCO-A}: AXp enumeration  \\   
+		{\large\adfbullet{9} \color{orange}\normalsize MARCO-C}: CXp enumeration
+\end{frame}
+
+%\begin{frame}{RBO Results}
+%	\begin{figure}[!t]
+%		\centering
+%	    \includegraphics[width=0.6\textwidth]{plots/switch/switch-slide50-gap2-diff1-coef-rbo}
+%	    \caption{RBO over time.}
+%	    \label{fig:rbo}
+%\end{figure}
+%		{\large\adfbullet{9} \color{orange}\normalsize MARCO-S}: Propose approach
+%		{\large\adfbullet{9} \color{orange}\normalsize MARCO-A}: AXp enumeration  \\   
+%		{\large\adfbullet{9} \color{orange}\normalsize MARCO-C}: CXp enumeration
+%\end{frame}
+
